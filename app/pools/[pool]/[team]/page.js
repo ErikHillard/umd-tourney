@@ -1,5 +1,5 @@
 import clientPromise from "../../../../lib/mongodb";
-
+import CreateLoading from "./temp";
 
 async function getTeam(teamName, poolName) {
   try {
@@ -29,6 +29,7 @@ export default async function TeamPage({ params }) {
   return (
     <div>
       <h1>Team Name {params.team} and {team.wins}</h1>
+      <CreateLoading />
     </div>
   );
 }

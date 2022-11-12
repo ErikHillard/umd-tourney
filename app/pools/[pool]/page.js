@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
 import clientPromise from "../../../lib/mongodb";
 
+export const revalidate = 10;
+
 async function getTeams(pool) {
   try {
     const client = await clientPromise;
@@ -12,7 +14,18 @@ async function getTeams(pool) {
             .find({ name: {$exists: true} })
             .sort({ name: -1 })
             .toArray();
-    // console.log(movies);
+    console.log(movies);
+
+    // const db = client.db("sample_mflix");
+
+    // const movies = await db
+    //     .collection("movies")
+    //     .find({})
+    //     .sort({ metacritic: -1 })
+    //     .limit(20)
+    //     .toArray();
+
+
     return JSON.parse(JSON.stringify(movies));
 
   } catch (e) {

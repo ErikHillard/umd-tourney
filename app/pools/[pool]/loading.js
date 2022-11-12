@@ -1,3 +1,5 @@
+import { ClimbingBoxLoader } from "react-spinners";
+
 export default function Loading() {
-  return <h1>Loading............</h1>
+  return <ClimbingBoxLoader color="#36d7b7" />
 }
