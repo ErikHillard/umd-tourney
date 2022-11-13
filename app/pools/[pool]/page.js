@@ -14,7 +14,7 @@ async function getTeams(pool) {
             .find({ name: {$exists: true} })
             .sort({ name: -1 })
             .toArray();
-    console.log(movies);
+    // console.log(movies);
 
     // const db = client.db("sample_mflix");
 
@@ -29,6 +29,7 @@ async function getTeams(pool) {
     return JSON.parse(JSON.stringify(movies));
 
   } catch (e) {
+    // console.log("hello");
     console.error(e);
   }
 }

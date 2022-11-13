@@ -1,10 +1,36 @@
+import Link from "next/link";
+import clientPromise from "../lib/mongodb";
 
+async function getTourn() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("MainDB");
+    // console.log(pool);
 
-export default function RootLayout({ children }) {
+    const team = await db
+            .collection("info")
+            .find({ type: "info" })
+            .sort({ name: -1 })
+            .toArray();
+    // console.log(team);
+    return JSON.parse(JSON.stringify(team))[0];
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export default async function RootLayout({ children }) {
+  const tournInfo = await getTourn();
+  console.log(tournInfo.teamNames.length);
+
   return (
     <html>
       <head />
-      <body>{children}</body>
+      <body>
+        <Link href="/pools/pool1">Hello!!!!</Link>
+        {children}
+      </body>
     </html>
   )
 }
