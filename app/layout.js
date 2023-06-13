@@ -22,15 +22,19 @@ async function getTourn() {
 
 export default async function RootLayout({ children }) {
   const tournInfo = await getTourn();
-  console.log(tournInfo.teamNames.length);
+  //console.log(tournInfo.teamNames.length);
 
   return (
     <html>
-      <head />
       <body>
-        <Link href="/pools/pool1">Hello!!!!</Link>
+        <Link href="/pools/">Hello!!!!</Link>
         {children}
       </body>
     </html>
   )
+}
+
+export const metadata = {
+  title: 'Home',
+  description: 'Welcome to Next.js',
 }
