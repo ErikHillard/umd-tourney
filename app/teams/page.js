@@ -1,4 +1,5 @@
-import { getAllTeams } from "../utils/apiUtils";
+import { getAllTeams } from "../../utils/apiUtils";
+
 // This will list all teams and their current standing
 
 export default async function TeamPage({ params }) {
@@ -7,14 +8,10 @@ export default async function TeamPage({ params }) {
   
 
   return (
-    <div>
-      <ul>
-        {teams.map((team) => (
-            <li>
-                <h2>{team.teamName}</h2>
-            </li>
+    <div className={`grid grid-rows-${teams.length}`}>
+      {teams.map((team) => (
+          <div>{team.teamName}</div>
         ))}
-      </ul>
     </div>
   );
 }

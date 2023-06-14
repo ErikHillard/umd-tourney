@@ -1,4 +1,4 @@
-import clientPromise from "../../lib/mongodb";
+import clientPromise from "../lib/mongodb";
 
 export async function getTeam(teamName) {
   try {
@@ -72,6 +72,25 @@ export async function getAllPools() {
 
   } catch (e) {
     // console.log("hello");
+    console.error(e);
+  }
+}
+
+export async function getTourn() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("MainDB");
+    // console.log(pool);
+
+    const team = await db
+            .collection("info")
+            .find({ type: "info" })
+            .sort({ name: -1 })
+            .toArray();
+    // console.log(team);
+    return JSON.parse(JSON.stringify(team))[0];
+
+  } catch (e) {
     console.error(e);
   }
 }

@@ -1,19 +1,16 @@
-import { getAllPools } from "../utils/apiUtils";
-
+import { getAllPools } from "../../utils/apiUtils";
+import { revalidatePath } from "next/cache";
 
 export default async function PoolPage({  }) {
   const pools = await getAllPools();
 
   return (
-    <div>
-      <ul>
-        {pools.map((pool) => (
-            <li>
-                <h2>{pool.poolName}</h2>
-            </li>
-        ))}
-      </ul>
-    </div>
+    <ol className="list-disc">
+      {/* {pools.map((pool) => (
+          <li>{pool.poolName}</li>
+        ))} */}
+        <li>hello</li>
+    </ol>
   );
 }
 
