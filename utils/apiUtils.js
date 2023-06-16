@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import clientPromise from "../lib/mongodb";
 
 export async function getTeam(teamName) {
@@ -90,6 +91,52 @@ export async function getTourn() {
     // console.log(team);
     return JSON.parse(JSON.stringify(team))[0];
 
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function resetTourney() {
+  try {
+    const client = await clientPromise;
+    const db = client.db("MainDB");
+    // console.log(pool);
+
+    const teams = await db.collection("Teams");
+    teams.deleteMany({});
+    const pools = await db.collection("Pools");
+    pools.deleteMany({});
+
+    return JSON.parse(JSON.stringify(team))[0];
+
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function addTeam(teamName, poolNumber) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("MainDB");
+    // console.log(pool);
+
+    const doc = {
+      teamName: teamName,
+      poolName: `pool${poolNumber}`,
+      wins: "0",
+      losses: "0",
+      point_differential:"0"
+    }
+
+    const result = await db
+            .collection("Teams")
+            .insertOne(doc);
+    // console.log(team);
+
+    await revalidatePath(`/teams/${teamName}`)
+    await revalidatePath("/teams")
+
+    return result;
   } catch (e) {
     console.error(e);
   }
