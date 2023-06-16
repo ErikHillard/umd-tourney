@@ -10,7 +10,7 @@ export default async function TeamPage({ params }) {
   return (!team) ? 
   (
     <div>
-      <h1>Team Name and </h1>
+      <h1>Team not found?</h1>
     </div>
   ) :
   (
