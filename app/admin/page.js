@@ -1,4 +1,4 @@
-import { addTeam } from "../../utils/apiUtils"
+import { addPool, addTeam, resetTourney, setupTestTourney } from "../../utils/apiUtils"
 import { redirect } from 'next/navigation'
 
 
@@ -6,12 +6,15 @@ export default function AdminPage( {} ) {
   async function createPool(data) {
     "use server"
 
-    console.log(data.get("poolName"))
+    // TODO: check pool does not already exist
+
+    addPool(data.get("poolNumber"))
   }
   async function createTeam(data) {
     "use server"
 
-    // need to check for uniqueness here
+    // TODO: need to check for uniqueness here, no symbols, convert spaces to _
+    // as well check that the pool exists
 
     addTeam(data.get("teamName"), data.get("poolNumber"));
 
@@ -22,7 +25,15 @@ export default function AdminPage( {} ) {
     "use server"
 
     if (data.get("confirm")) {
-      // Reset Tourney
+      resetTourney()
+    }
+  }
+
+  async function createTestTourney(data) {
+    "use server"
+
+    if (data.get("confirm")) {
+      setupTestTourney()
     }
   }
 
@@ -48,13 +59,13 @@ export default function AdminPage( {} ) {
         <button type="submit">Reset Tournament</button>
       </form>
 
-      {/* <form action={createPool} className="flex flex-col border-4">
-        <label htmlFor="poolName">Pool Number</label>
-        <input type="text" name="poolName" className="border-1"></input>
+      <form action={createTestTourney} className="flex flex-col border-4">
+        <label htmlFor="confirm">Confirm?</label>
+        <input type="checkbox" name="confirm"></input>
         <button type="submit">Create Pool</button>
       </form>
 
-      <form action={createPool} className="flex flex-col border-4">
+      {/* <form action={createPool} className="flex flex-col border-4">
         <label htmlFor="poolName">Pool Number</label>
         <input type="text" name="poolName" className="border-1"></input>
         <button type="submit">Create Pool</button>

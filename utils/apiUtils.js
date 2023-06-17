@@ -44,13 +44,13 @@ export async function getPool(pool) {
     const client = await clientPromise;
     const db = client.db("MainDB");
 
-    const movies = await db
+    const pools = await db
             .collection("Pools")
             .find({ poolName: pool })
             .sort({ poolName: -1 })
             .toArray();
 
-    return JSON.parse(JSON.stringify(movies))[0];
+    return JSON.parse(JSON.stringify(pools))[0];
 
   } catch (e) {
     // console.log("hello");
@@ -107,8 +107,6 @@ export async function resetTourney() {
     const pools = await db.collection("Pools");
     pools.deleteMany({});
 
-    return JSON.parse(JSON.stringify(team))[0];
-
   } catch (e) {
     console.error(e);
   }
@@ -131,12 +129,79 @@ export async function addTeam(teamName, poolNumber) {
     const result = await db
             .collection("Teams")
             .insertOne(doc);
-    // console.log(team);
+    
+    const teamNumber = (await getPool(doc.poolName)).teamTotal + 1;
+
+    const result2 = await db
+            .collection("Pools")
+            .updateOne(
+              { poolName: doc.poolName },
+              { $push: { teams: doc.teamName },
+                $inc: { teamTotal: 1 },
+                $set: { format: `${teamNumber} to 21` }}
+            )
+    
 
     await revalidatePath(`/teams/${teamName}`)
     await revalidatePath("/teams")
 
+    await revalidatePath(`/pools/${doc.poolName}`)
+    await revalidatePath("/pools")
+
     return result;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function addPool(poolNumber) {
+  try {
+    const client = await clientPromise;
+    const db = client.db("MainDB");
+    // console.log(pool);
+
+    const doc = {
+      poolName: `pool${poolNumber}`,
+      teamTotal: 0,
+      teams: [],
+      gamesCompleted: 0,
+      format: "0 to 21"
+    }
+
+    const result = await db
+            .collection("Pools")
+            .insertOne(doc);
+    
+
+    await revalidatePath(`/pools/${doc.poolName}`)
+    await revalidatePath("/pools")
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function setupTestTourney(poolNumber) {
+  try {
+    await resetTourney()
+
+    // Create Pool 1
+    await addPool(1)
+    await addTeam("bob", 1)
+    await addTeam("jim", 1)
+    await addTeam("hul", 1)
+
+    // Create Pool 2
+    await addPool(2)
+    await addTeam("what", 2)
+    await addTeam("the", 2)
+    await addTeam("heck", 2)
+
+    // Create Pool 3
+    await addPool(3)
+    await addTeam("Big_Boys", 3)
+    await addTeam("WhatchuDoing", 3)
+    await addTeam("whyyyyyyyyyy", 3)
+    
   } catch (e) {
     console.error(e);
   }
