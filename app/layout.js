@@ -4,7 +4,7 @@ import clientPromise from "../lib/mongodb";
 import { getAllPools } from "../utils/apiUtils";
 import "../styles/globals.css"
 
-
+export const revalidate = 10
 
 export default async function RootLayout({ children }) {
   

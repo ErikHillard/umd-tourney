@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getAllTeams } from "../../utils/apiUtils";
 
+export const revalidate = 10
+
 // This will list all teams and their current standing
 function compareTeams(teamA, teamB) {
   if (teamA.wins > teamB.wins) {
