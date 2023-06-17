@@ -14,9 +14,11 @@ export default async function PoolPage({ params }) {
       <h1>Pool Name {pool.poolName}</h1>
       <ul>
                 {pool.teams.map((team) => (
-                    <li>
-                        <h2>{team}</h2>
-                    </li>
+                    <div key={team.teamName}>
+                      <li>
+                          <h2>{team}</h2>
+                      </li>
+                    </div>
                 ))}
             </ul>
     </div>
