@@ -107,6 +107,12 @@ export async function resetTourney() {
     const pools = await db.collection("Pools");
     pools.deleteMany({});
 
+    await revalidatePath(`/teams/[team]`)
+    await revalidatePath("/teams")
+
+    await revalidatePath(`/pools/[pool]`)
+    await revalidatePath("/pools")
+
   } catch (e) {
     console.error(e);
   }
