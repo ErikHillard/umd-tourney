@@ -31,7 +31,7 @@ export default async function PoolPage({  }) {
               </thead>
               <tbody>
               {pools.map((pool) => (
-                <tr className="border-b dark:border-neutral-500">
+                <tr className="border-b dark:border-neutral-500" key={pool.poolName}>
                   <td className="whitespace-nowrap px-6 py-4 font-medium"><Link href={`/pools/${pool.poolName}`}>{`Pool ${pool.poolName.charAt(4)}`}</Link></td>
                   <td className="whitespace-nowrap px-6 py-4">{pool.teamTotal}</td>
                   <td className="whitespace-nowrap px-6 py-4">{pool.format}</td>

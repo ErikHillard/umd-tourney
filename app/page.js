@@ -9,10 +9,7 @@ export default function Home() {
   return (
     <div>
       <main>
-        <ul className="list-disc list-inside">
-          <li>HI</li>
-          <li>Why</li>
-        </ul>
+
       </main>
     </div>
   )
