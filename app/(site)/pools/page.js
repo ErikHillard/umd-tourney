@@ -1,4 +1,4 @@
-import { getAllPools } from "../../utils/apiUtils";
+// import { getAllPools } from "../../../utils/apiUtils";
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 
@@ -13,7 +13,7 @@ function comparePools(poolA, poolB) {
 }
 
 export default async function PoolPage({  }) {
-  const pools = (await getAllPools()).sort(comparePools);
+  // const pools = (await getAllPools()).sort(comparePools);
 
   return (
     <div className="flex flex-col">
@@ -30,14 +30,14 @@ export default async function PoolPage({  }) {
                 </tr>
               </thead>
               <tbody>
-              {pools.map((pool) => (
+              {/* {pools.map((pool) => (
                 <tr className="border-b dark:border-neutral-500" key={pool.poolName}>
                   <td className="whitespace-nowrap px-6 py-4 font-medium"><Link href={`/pools/${pool.poolName}`}>{`Pool ${pool.poolName.charAt(4)}`}</Link></td>
                   <td className="whitespace-nowrap px-6 py-4">{pool.teamTotal}</td>
                   <td className="whitespace-nowrap px-6 py-4">{pool.format}</td>
                   <td className="whitespace-nowrap px-6 py-4">{pool.gamesCompleted}</td>
                 </tr>
-              ))}
+              ))} */}
               </tbody>
             </table>
           </div>

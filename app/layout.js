@@ -1,6 +1,5 @@
 import Link from "next/link";
-import Navbar from "../components/Navbar";
-import clientPromise from "../lib/mongodb";
+import Navbar from "./components/Navbar";
 import { getAllPools } from "../utils/apiUtils";
 import "../styles/globals.css"
 
@@ -17,6 +16,6 @@ export default async function RootLayout({ children }) {
 }
 
 export const metadata = {
-  title: 'Home',
-  description: 'Welcome to Next.js',
+  title: 'UMD Volleyball Tournament Runner',
+  description: 'UMD Volleyball Tournament Runner',
 }
