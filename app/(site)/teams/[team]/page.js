@@ -1,5 +1,5 @@
 import { redirect } from "next/dist/server/api-utils";
-import { getTeam } from "../../../utils/apiUtils";
+// import { getTeam } from "../../../../utils/apiUtils";
 
 
 // This will list all teams and their current standing

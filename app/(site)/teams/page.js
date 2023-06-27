@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllTeams } from "../../utils/apiUtils";
+// import { getAllTeams } from "../../utils/apiUtils";
 
 
 // This will list all teams and their current standing
@@ -23,7 +23,7 @@ function compareTeams(teamA, teamB) {
 
 
 export default async function TeamPage({ params }) {
-  const teams = (await getAllTeams("bob")).sort(compareTeams);
+  // const teams = (await getAllTeams("bob")).sort(compareTeams);
 
   return (
     <div className="flex flex-col">
@@ -40,14 +40,14 @@ export default async function TeamPage({ params }) {
                 </tr>
               </thead>
               <tbody>
-              {teams.map((team) => (
+              {/* {teams.map((team) => (
                 <tr className="border-b dark:border-neutral-500" key={team.teamName}>
                   <td className="whitespace-nowrap px-6 py-4 font-medium"><Link href={`/teams/${team.teamName}`}>{team.teamName}</Link></td>
                   <td className="whitespace-nowrap px-6 py-4">{team.wins}</td>
                   <td className="whitespace-nowrap px-6 py-4">{team.losses}</td>
                   <td className="whitespace-nowrap px-6 py-4">{team.point_differential}</td>
                 </tr>
-              ))}
+              ))} */}
               </tbody>
             </table>
           </div>

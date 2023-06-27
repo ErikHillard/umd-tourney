@@ -1,42 +1,11 @@
-import { addPool, addTeam, resetTourney, setupTestTourney } from "../../utils/apiUtils"
+"use client"
+
+// import { addPool, addTeam, resetTourney, setupTestTourney } from "../../../utils/apiUtils"
 import { redirect } from 'next/navigation'
+import axios from "axios"
 
 
-export default function AdminPage( {} ) {
-  async function createPool(data) {
-    "use server"
-
-    // TODO: check pool does not already exist
-
-    addPool(data.get("poolNumber"))
-  }
-  async function createTeam(data) {
-    "use server"
-
-    // TODO: need to check for uniqueness here, no symbols, convert spaces to _
-    // as well check that the pool exists
-
-    addTeam(data.get("teamName"), data.get("poolNumber"));
-
-    redirect(`/teams/${data.get("teamName")}`);
-  }
-
-  async function confirm(data) {
-    "use server"
-
-    if (data.get("confirm")) {
-      resetTourney()
-    }
-  }
-
-  async function createTestTourney(data) {
-    "use server"
-
-    if (data.get("confirm")) {
-      setupTestTourney()
-    }
-  }
-
+export default function ClientAdminPage( {createPool, createTeam, confirm, createTestTourney} ) {
   return (
     <div className="flex flex-col">
       <form action={createPool} className="flex flex-col border-4">
