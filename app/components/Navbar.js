@@ -4,7 +4,9 @@ import Link from "next/link";
 
 export default async function Navbar(  ) {
 
-  const pools = await (await fetch(`${process.env.APIpath}/api/pool`, { next: { revalidate: 100 } })).json();
+  const ResponsePools = (await fetch(`${process.env.APIpath}/api/pool`, { next: { revalidate: 100 } }));
+
+  const pools = (!ResponsePools.ok) ? [] : ResponsePools.json()
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
