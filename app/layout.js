@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Navbar from "./components/Navbar";
-import { getAllPools } from "../utils/apiUtils";
+// import { getAllPools } from "../utils/apiUtils";
 import "../styles/globals.css"
+import Providers from "./utils/provider";
 
 export default async function RootLayout({ children }) {
   
@@ -9,7 +10,10 @@ export default async function RootLayout({ children }) {
     <html>
       <body>
         <Navbar />
-        {children}
+        {/* Providers is there for react query to update dynamically on screen */}
+        {/* <Providers> */}
+          {children}
+        {/* </Providers> */}
       </body>
     </html>
   )
