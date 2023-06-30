@@ -8,6 +8,8 @@ export default async function Navbar(  ) {
 
   const pools = (!ResponsePools.ok) ? [] : ResponsePools.json()
 
+  // Need to rebuild
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="min-w-full flex flex-wrap items-center justify-between mx-auto p-4">
