@@ -1,11 +1,11 @@
 import Link from "next/link";
+import { getAllPools } from "../utils/apiUtils";
 // import { useState } from "react";
 // import { getAllPools } from "../../utils/apiUtils";
 
 export default async function Navbar(  ) {
 
-  const pools = []
-  // await (await fetch(`${process.env.APIpath}/api/pools`, { next: { revalidate: 1 } })).json();
+  const pools = await getAllPools();
 
   // Need to rebuild
 
