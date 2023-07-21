@@ -14,10 +14,11 @@ model Pool {
   id             String  @id @default(auto()) @map("_id") @db.ObjectId
   name           String  @unique
   teams          Team[]
-  format         String
   gamesCompleted Int     @default(0)
   totalGames     Int     @default(0)
   matches        Match[]
+  sets           Int     @default(0)
+  pointsPerSet   Int     @default(0)
 }
 
 model Team {
@@ -33,19 +34,19 @@ model Team {
 }
 
 model Match {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  pool    Pool     @relation(fields: [poolId], references: [id])
-  teamIds String[] @db.ObjectId
-  teams   Team[]   @relation(fields: [teamIds], references: [id])
-  poolId  String   @db.ObjectId
-  pointDiff Int @default(0)
-  sets Set[]
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  pool      Pool     @relation(fields: [poolId], references: [id])
+  teamIds   String[] @db.ObjectId
+  teams     Team[]   @relation(fields: [teamIds], references: [id])
+  poolId    String   @db.ObjectId
+  pointDiff Int      @default(0)
+  sets      Set[]
 }
 
 model Set {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  matchId String @db.ObjectId
-  match Match @relation(fields: [matchId], references: [id])
-  team1Scores Int[] @default([])
-  team2Scores Int[] @default([])
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  matchId     String @db.ObjectId
+  match       Match  @relation(fields: [matchId], references: [id])
+  team1Scores Int[]  @default([])
+  team2Scores Int[]  @default([])
 }

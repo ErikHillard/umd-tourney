@@ -1,8 +1,23 @@
 import { NextResponse } from "next/server"
 import prisma from "../../../libs/prismadb";
 
+export async function GET(request, { params }) {
+  const pool = await prisma.pool.findUnique({
+    where: {
+      id: params.id
+    }
+  })
+
+  if (!pool) {
+    return new NextResponse("Need Pool Name", { status: 400 })
+  }
+
+  return NextResponse.json(pool)
+
+}
+
 export async function POST(request, { params }) {
-  const name = params.name
+  const name = params.id
   if (!name) {
     return new NextResponse("Need Pool Name", { status: 400 })
   }
@@ -31,19 +46,7 @@ export async function POST(request, { params }) {
 
   // use 
 
-  return NextResponse.json(teams)
-}
-
-export async function GET(request, { params }) {
-
-  const pool = await prisma.pool.findUnique({
-    where: {
-      name: params.name
-    }
-  })
-
   return NextResponse.json(pool)
-
 }
 
 export async function DELETE(request, { params }) {

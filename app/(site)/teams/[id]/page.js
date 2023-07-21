@@ -1,12 +1,13 @@
 import { redirect } from "next/dist/server/api-utils";
+import { getTeam } from "../../../utils/apiUtils";
 // import { getTeam } from "../../../../utils/apiUtils";
 
 
 // This will list all teams and their current standing
 
 export default async function TeamPage({ params }) {
-  const team = await getTeam(params.team);
-  
+  const team = await getTeam(params.id);
+
   return (!team) ? 
   (
     <div>
@@ -15,7 +16,7 @@ export default async function TeamPage({ params }) {
   ) :
   (
     <div>
-      <h1>Team Name {team.teamName} and {team.wins}</h1>
+      <h1>Team Name {team.name} and {team.wins}</h1>
     </div>
   );
 
