@@ -1,12 +1,14 @@
 import axios from "axios";
 
+// In prod this will be increased as we will mainly be relying upon on demand revalidation
+const REVALIDATION_TIME = 1;
 
 export async function getAllTeams() {
   var teams;
   try {
     teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
       next: { 
-        revalidate: 1,
+        revalidate: REVALIDATION_TIME,
         tags: ['teams']
       } })).json();
   } catch (e) {
@@ -23,7 +25,7 @@ export async function getTeam(teamID) {
   try {
     team = await (await fetch(`${process.env.APIpath}/api/teams/${teamID}`, { 
       next: { 
-        revalidate: 1,
+        revalidate: REVALIDATION_TIME,
         tags: [teamID]
       } })).json();
   } catch (e) {
@@ -41,7 +43,7 @@ export async function getAllPools() {
   try {
     pools = await (await fetch(`${process.env.APIpath}/api/pools`, { 
       next: { 
-        revalidate: 1,
+        revalidate: REVALIDATION_TIME,
         tags: ['pools']
       } })).json();
   } catch (e) {
@@ -58,7 +60,7 @@ export async function getPool(poolID) {
   try {
     pool = await (await fetch(`${process.env.APIpath}/api/pools/${poolID}`, { 
       next: { 
-        revalidate: 1,
+        revalidate: REVALIDATION_TIME,
         tags: [poolID]
       } })).json();
   } catch (e) {
