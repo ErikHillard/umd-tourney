@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server";
 import prisma from "../../libs/prismadb";
 
 
@@ -9,4 +10,6 @@ export async function GET(request, { params }) {
       sets: true,
     }
   })
+
+  return NextResponse.json(matches)
 }

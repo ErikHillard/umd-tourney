@@ -11,7 +11,6 @@ export async function GET(request) {
   })
 
   return NextResponse.json(pools)
-
 }
 
 export async function DELETE(request) {
