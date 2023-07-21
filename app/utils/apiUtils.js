@@ -2,16 +2,22 @@ import axios from "axios";
 
 
 export async function getAllTeams() {
-  var teams;
-  try {
-    teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
-      next: { 
-        revalidate: 1,
-        tags: ['teams']
-      } })).json();
-  } catch (e) {
-    teams = [];
-  }
+  // var teams;
+  // try {
+  //   teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
+  //     next: { 
+  //       revalidate: 1,
+  //       tags: ['teams']
+  //     } })).json();
+  // } catch (e) {
+  //   teams = [];
+  // }
+
+  const teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
+    next: { 
+      revalidate: 1,
+      tags: ['teams']
+    } })).json();
   
 
   // Leaving space here in case I want to do validation here instead of in the component itself
