@@ -17,8 +17,8 @@ export default function ClientAdminPage( {createPool, createTeam, confirm, creat
       <form action={createTeam} className="flex flex-col border-4">
         <label htmlFor="teamName">Team Name</label>
         <input type="text" name="teamName" className="border-2"></input>
-        <label htmlFor="poolNumber">Pool Number</label>
-        <input type="text" name="poolNumber" className="border-2"></input>
+        <label htmlFor="poolID">Pool ID</label>
+        <input type="text" name="poolID" className="border-2"></input>
         <button type="submit">Create Team</button>
       </form>
 

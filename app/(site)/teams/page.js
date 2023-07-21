@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getAllTeams } from "../../utils/apiUtils";
 // import { getAllTeams } from "../../utils/apiUtils";
 
 
@@ -23,7 +24,7 @@ function compareTeams(teamA, teamB) {
 
 
 export default async function TeamPage({ params }) {
-  // const teams = (await getAllTeams("bob")).sort(compareTeams);
+  const teams = await getAllTeams();
 
   return (
     <div className="flex flex-col">
@@ -40,14 +41,14 @@ export default async function TeamPage({ params }) {
                 </tr>
               </thead>
               <tbody>
-              {/* {teams.map((team) => (
-                <tr className="border-b dark:border-neutral-500" key={team.teamName}>
-                  <td className="whitespace-nowrap px-6 py-4 font-medium"><Link href={`/teams/${team.teamName}`}>{team.teamName}</Link></td>
+              {teams.map((team) => (
+                <tr className="border-b dark:border-neutral-500" key={team.name}>
+                  <td className="whitespace-nowrap px-6 py-4 font-medium"><Link href={`/teams/${team.id}`}>{team.name}</Link></td>
                   <td className="whitespace-nowrap px-6 py-4">{team.wins}</td>
                   <td className="whitespace-nowrap px-6 py-4">{team.losses}</td>
-                  <td className="whitespace-nowrap px-6 py-4">{team.point_differential}</td>
+                  <td className="whitespace-nowrap px-6 py-4">{team.pointDiff}</td>
                 </tr>
-              ))} */}
+              ))}
               </tbody>
             </table>
           </div>
