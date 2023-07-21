@@ -2,24 +2,17 @@ import axios from "axios";
 
 
 export async function getAllTeams() {
-  // var teams;
-  // try {
-  //   teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
-  //     next: { 
-  //       revalidate: 1,
-  //       tags: ['teams']
-  //     } })).json();
-  // } catch (e) {
-  //   teams = [];
-  // }
-
-  const teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
-    next: { 
-      revalidate: 1,
-      tags: ['teams']
-    } })).json();
+  var teams;
+  try {
+    teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
+      next: { 
+        revalidate: 1,
+        tags: ['teams']
+      } })).json();
+  } catch (e) {
+    teams = [];
+  }
   
-
   // Leaving space here in case I want to do validation here instead of in the component itself
 
   return teams;
@@ -43,6 +36,40 @@ export async function getTeam(teamID) {
   return team;
 }
 
+export async function getAllPools() {
+  var pools;
+  try {
+    pools = await (await fetch(`${process.env.APIpath}/api/pools`, { 
+      next: { 
+        revalidate: 1,
+        tags: ['pools']
+      } })).json();
+  } catch (e) {
+    pools = [];
+  }
+  
+  // Leaving space here in case I want to do validation here instead of in the component itself
+
+  return pools;
+}
+
+export async function getPool(poolID) {
+  var pool;
+  try {
+    pool = await (await fetch(`${process.env.APIpath}/api/pools/${poolID}`, { 
+      next: { 
+        revalidate: 1,
+        tags: [poolID]
+      } })).json();
+  } catch (e) {
+    pool = [];
+  }
+
+  // Leaving space here in case I want to do validation here instead of in the component itself
+
+  return pool;
+}
+
 export async function createPool(poolName) {
   if (!poolName) {
     return
@@ -62,7 +89,6 @@ export async function createTeam(teamName, poolID) {
     return
   }
 
-  console.log(`${process.env.APIpath}/api/teams/${teamName}?poolID=${poolID}`)
 
   const res = await fetch(`${process.env.APIpath}/api/teams/${teamName}?poolID=${poolID}`, {
     method: "POST",
