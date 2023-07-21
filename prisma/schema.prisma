@@ -35,10 +35,10 @@ model Team {
 
 model Match {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  poolId    String   @db.ObjectId
   pool      Pool     @relation(fields: [poolId], references: [id])
   teamIds   String[] @db.ObjectId
   teams     Team[]   @relation(fields: [teamIds], references: [id])
-  poolId    String   @db.ObjectId
   pointDiff Int      @default(0)
   sets      Set[]
 }
