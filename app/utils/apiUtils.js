@@ -2,11 +2,17 @@ import axios from "axios";
 
 
 export async function getAllTeams() {
-  const teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
-    next: { 
-      revalidate: 1,
-      tags: ['teams']
-    } })).json();
+  var teams;
+  try {
+    teams = await (await fetch(`${process.env.APIpath}/api/teams`, { 
+      next: { 
+        revalidate: 1,
+        tags: ['teams']
+      } })).json();
+  } catch (e) {
+    teams = [];
+  }
+  
 
   // Leaving space here in case I want to do validation here instead of in the component itself
 
@@ -14,11 +20,17 @@ export async function getAllTeams() {
 }
 
 export async function getTeam(teamID) {
-  const team = await (await fetch(`${process.env.APIpath}/api/teams/${teamID}`, { 
-    next: { 
-      revalidate: 1,
-      tags: [teamID]
-    } })).json();
+  var team;
+  try {
+    team = await (await fetch(`${process.env.APIpath}/api/teams/${teamID}`, { 
+      next: { 
+        revalidate: 1,
+        tags: [teamID]
+      } })).json();
+  } catch (e) {
+    team = [];
+  }
+  
 
   // Leaving space here in case I want to do validation here instead of in the component itself
 

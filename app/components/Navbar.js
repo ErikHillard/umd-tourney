@@ -4,7 +4,8 @@ import Link from "next/link";
 
 export default async function Navbar(  ) {
 
-  const pools = await (await fetch(`${process.env.APIpath}/api/pools`, { next: { revalidate: 1 } })).json();
+  const pools = []
+  // await (await fetch(`${process.env.APIpath}/api/pools`, { next: { revalidate: 1 } })).json();
 
   // Need to rebuild
 
