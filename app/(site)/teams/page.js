@@ -24,7 +24,10 @@ function compareTeams(teamA, teamB) {
 
 
 export default async function TeamPage({ params }) {
-  const teams = await getAllTeams();
+  var teams = await getAllTeams();
+  if (!teams) {
+    teams = []
+  }
 
   return (
     <div className="flex flex-col">

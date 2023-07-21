@@ -5,6 +5,9 @@ export async function GET(request, { params }) {
   const pool = await prisma.pool.findUnique({
     where: {
       id: params.id
+    },
+    include: {
+      teams: true,
     }
   })
 

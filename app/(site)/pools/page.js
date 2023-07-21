@@ -2,11 +2,12 @@
 import { revalidatePath } from "next/cache";
 import Link from "next/link";
 import PoolsTable from "../../components/PoolsTable";
+import { getAllPools } from "../../utils/apiUtils";
 
 function comparePools(poolA, poolB) {
-  if (Number(poolA.poolName.charAt(poolA.poolName.length)) > Number(poolB.poolName.charAt(poolB.poolName.length))) {
+  if (Number(poolA.name.charAt(poolA.name.length)) > Number(poolB.name.charAt(poolB.name.length))) {
     return 1;
-  } else if (Number(poolA.poolName.charAt(poolA.poolName.length)) < Number(poolB.poolName.charAt(poolB.poolName.length))) {
+  } else if (Number(poolA.name.charAt(poolA.name.length)) < Number(poolB.name.charAt(poolB.name.length))) {
     return -1;
   }
 
@@ -14,7 +15,11 @@ function comparePools(poolA, poolB) {
 }
 
 export default async function PoolPage({  }) {
-  // const pools = (await getAllPools()).sort(comparePools);
+  var pools = (await getAllPools()).sort(comparePools);
+
+  if (!pools) {
+    pools = []
+  }
 
   return (
     <PoolsTable />

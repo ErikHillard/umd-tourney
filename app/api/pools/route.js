@@ -2,7 +2,11 @@ import { NextResponse } from "next/server"
 import prisma from "../../libs/prismadb";
 
 export async function GET(request) {
-  const pools = await prisma.pool.findMany()
+  const pools = await prisma.pool.findMany({
+    include: {
+      teams: true,
+    }
+  })
 
   return NextResponse.json(pools)
 
