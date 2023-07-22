@@ -30,7 +30,6 @@ export async function POST(request, { params }) {
   const pool = await prisma.pool.create({
     data: {
       name: name,
-      format: `0 to whatever`
     }
   })
   const teams = []
@@ -56,7 +55,7 @@ export async function DELETE(request, { params }) {
 
   const pool = await prisma.pool.delete({
     where: {
-      name: params.name
+      id: params.id
     }
   })
 

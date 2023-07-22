@@ -24,29 +24,31 @@ model Pool {
 model Team {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String   @unique
-  pool      Pool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
-  poolId    String   @db.ObjectId
+  pool      Pool     @relation(fields: [poolID], references: [id], onDelete: Cascade)
+  poolID    String   @db.ObjectId
   wins      Int      @default(0)
   losses    Int      @default(0)
   pointDiff Int      @default(0)
-  matchIds  String[] @db.ObjectId
-  matches   Match[]  @relation(fields: [matchIds], references: [id])
+  matchIDs  String[] @db.ObjectId
+  matches   Match[]  @relation(fields: [matchIDs], references: [id])
 }
 
 model Match {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  poolId    String   @db.ObjectId
-  pool      Pool     @relation(fields: [poolId], references: [id])
-  teamIds   String[] @db.ObjectId
-  teams     Team[]   @relation(fields: [teamIds], references: [id])
+  poolID    String   @db.ObjectId
+  pool      Pool     @relation(fields: [poolID], references: [id], onDelete: Cascade)
+  teamIDs   String[] @db.ObjectId
+  teams     Team[]   @relation(fields: [teamIDs], references: [id])
   pointDiff Int      @default(0)
   sets      Set[]
+  finished  Boolean  @default(false)
 }
 
 model Set {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  matchId     String @db.ObjectId
-  match       Match  @relation(fields: [matchId], references: [id])
-  team1Scores Int[]  @default([])
-  team2Scores Int[]  @default([])
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  matchID     String  @db.ObjectId
+  match       Match   @relation(fields: [matchID], references: [id], onDelete: Cascade)
+  team1Scores Int[]   @default([])
+  team2Scores Int[]   @default([])
+  finished    Boolean @default(false)
 }

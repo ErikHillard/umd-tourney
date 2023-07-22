@@ -12,7 +12,7 @@ export async function getAllTeams() {
         tags: ['teams']
       } })).json();
   } catch (e) {
-    teams = [];
+    teams = {};
   }
   
   // Leaving space here in case I want to do validation here instead of in the component itself
@@ -29,7 +29,7 @@ export async function getTeam(teamID) {
         tags: [teamID]
       } })).json();
   } catch (e) {
-    team = [];
+    team = {};
   }
   
 
@@ -47,7 +47,7 @@ export async function getAllPools() {
         tags: ['pools']
       } })).json();
   } catch (e) {
-    pools = [];
+    pools = {};
   }
   
   // Leaving space here in case I want to do validation here instead of in the component itself
@@ -64,12 +64,29 @@ export async function getPool(poolID) {
         tags: [poolID]
       } })).json();
   } catch (e) {
-    pool = [];
+    pool = {};
   }
 
   // Leaving space here in case I want to do validation here instead of in the component itself
 
   return pool;
+}
+
+export async function getMatch(matchID) {
+  var match;
+  try {
+    match = await (await fetch(`${process.env.APIpath}/api/matches/${matchID}`, { 
+      next: { 
+        revalidate: REVALIDATION_TIME,
+        tags: [matchID]
+      } })).json();
+  } catch (e) {
+    match = {};
+  }
+
+  // Leaving space here in case I want to do validation here instead of in the component itself
+
+  return match;
 }
 
 export async function createPool(poolName) {
@@ -100,6 +117,21 @@ export async function createTeam(teamName, poolID) {
   return res;
 }
 
+export async function createMatch(poolID, teams) {
+  if (!poolID || !teams || teams.length != 4) {
+    return
+  }
+
+  const res = await fetch(`${process.env.APIpath}/api/matches/${poolID}/${teams[0].id}/${teams[1].id}/${teams[2].id}`, {
+    method: "POST",
+    cache: 'no-store'
+  });
+
+  
+
+  return res;
+}
+
 
 export async function resetTourney() {
   const res1 = await fetch(`${process.env.APIpath}/api/pools`, {
@@ -110,4 +142,13 @@ export async function resetTourney() {
     method: "DELETE",
     cache: 'no-store'
   });
+}
+
+export async function generateMatchesForPool(poolID) {
+  const pool = await getPool(poolID);
+  const teams = pool.teams;
+
+  // Assuming 4 teams per pool right now
+  const m = (await (await createMatch(poolID, teams)).json()).id;
+
 }

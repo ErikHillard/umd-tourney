@@ -9,6 +9,7 @@ export async function GET(request, { params }) {
     },
     include: {
       pool: true,
+      matches: true,
     }
   })
 
@@ -47,13 +48,36 @@ export async function POST(request, { params }) {
 }
 
 export async function DELETE(request, { params }) {
-
-  const pool = await prisma.pool.delete({
+  const team = await prisma.team.findUnique({
     where: {
-      name: params.name
+      id: params.id
+    }
+  });
+
+  var matchIDs = []
+
+  team.matchIDs.forEach(matchID => {
+    matchIDs.push({id: matchID})
+  });
+
+
+  await prisma.team.update({
+    where: {
+      id: params.id
+    },
+    data: {
+      matches: {
+        disconnect: matchIDs
+      }
     }
   })
 
-  return NextResponse.json(pool)
+  const t = await prisma.team.delete({
+    where: {
+      id: params.id
+    }
+  })
+
+  return NextResponse.json(t)
 
 }

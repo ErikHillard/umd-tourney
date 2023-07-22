@@ -6,7 +6,6 @@ export async function GET(request) {
     include: {
       teams: true,
       matches: true,
-      sets: true,
     }
   })
 
