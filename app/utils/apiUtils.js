@@ -127,7 +127,18 @@ export async function createMatch(poolID, team1, team2, team3) {
     cache: 'no-store'
   });
 
-  
+  return res;
+}
+
+export async function createSet(matchID) {
+  if (!matchID) {
+    return
+  }
+
+  const res = await fetch(`${process.env.APIpath}/api/sets/${matchID}`, {
+    method: "POST",
+    cache: 'no-store'
+  });
 
   return res;
 }
@@ -147,25 +158,44 @@ export async function resetTourney() {
 export async function generateMatchesForPool(poolID) {
   const pool = await getPool(poolID);
   const teams = pool.teams;
+  const sets = pool.sets;
+
 
   // Assuming 4 teams per pool right now
 
   // 1 v 3 w 2
   const m1 = (await (await createMatch(poolID, teams[0], teams[2], teams[1])).json()).id;
+  for (let i = 0; i < sets; i++) {
+    await createSet(m1);
+  }
 
   // 2 v 4 w 1
   const m2 = (await (await createMatch(poolID, teams[1], teams[3], teams[0])).json()).id;
+  for (let i = 0; i < sets; i++) {
+    await createSet(m2);
+  }
 
   // 1 v 4 w 3
   const m3 = (await (await createMatch(poolID, teams[0], teams[3], teams[2])).json()).id;
+  for (let i = 0; i < sets; i++) {
+    await createSet(m3);
+  }
 
   // 2 v 3 w 1
   const m4 = (await (await createMatch(poolID, teams[1], teams[2], teams[0])).json()).id;
+  for (let i = 0; i < sets; i++) {
+    await createSet(m4);
+  }
 
   // 3 v 4 w 2
   const m5 = (await (await createMatch(poolID, teams[2], teams[3], teams[1])).json()).id;
+  for (let i = 0; i < sets; i++) {
+    await createSet(m5);
+  }
 
   // 1 v 2 w 4
   const m6 = (await (await createMatch(poolID, teams[0], teams[1], teams[3])).json()).id;
-
+  for (let i = 0; i < sets; i++) {
+    await createSet(m6);
+  }
 }

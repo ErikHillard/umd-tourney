@@ -8,6 +8,7 @@ export async function GET(request, { params }) {
     },
     include: {
       teams: true,
+      matches: true,
     }
   })
 

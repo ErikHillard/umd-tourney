@@ -17,8 +17,8 @@ model Pool {
   gamesCompleted Int     @default(0)
   totalGames     Int     @default(0)
   matches        Match[]
-  sets           Int     @default(0)
-  pointsPerSet   Int     @default(0)
+  sets           Int     @default(2)
+  pointsPerSet   Int     @default(21)
 }
 
 model Team {

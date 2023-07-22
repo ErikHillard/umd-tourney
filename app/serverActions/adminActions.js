@@ -1,7 +1,7 @@
 'use server'
 
 import { revalidatePath } from "next/cache";
-import { createPool, createTeam, generateMatchesForPool, resetTourney } from "../utils/apiUtils";
+import { createPool, createTeam, generateMatchesForPool, getPool, resetTourney } from "../utils/apiUtils";
 
 export async function createPoolAction(data) {
 
@@ -68,6 +68,6 @@ export async function createTestTourney(data) {
     await (createTeam("Erik3", pool4ID));
     await (createTeam("Erik4", pool4ID));
 
-    await (generateMatchesForPool(pool1ID));    
+    await (generateMatchesForPool(pool1ID));
   }
 }
