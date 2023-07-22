@@ -12,7 +12,7 @@ export async function getAllTeams() {
         tags: ['teams']
       } })).json();
   } catch (e) {
-    teams = {};
+    teams = [];
   }
   
   // Leaving space here in case I want to do validation here instead of in the component itself
@@ -47,7 +47,7 @@ export async function getAllPools() {
         tags: ['pools']
       } })).json();
   } catch (e) {
-    pools = {};
+    pools = [];
   }
   
   // Leaving space here in case I want to do validation here instead of in the component itself
