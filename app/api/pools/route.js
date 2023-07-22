@@ -6,12 +6,10 @@ export async function GET(request) {
     include: {
       teams: true,
       matches: true,
-      sets: true,
     }
   })
 
   return NextResponse.json(pools)
-
 }
 
 export async function DELETE(request) {
