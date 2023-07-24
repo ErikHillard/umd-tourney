@@ -89,6 +89,25 @@ export async function getMatch(matchID) {
   return match;
 }
 
+export async function getSet(setID) {
+  // TODO test this
+
+  var set;
+  try {
+    set = await (await fetch(`${process.env.APIpath}/api/sets/${setID}`, { 
+      next: { 
+        revalidate: REVALIDATION_TIME,
+        tags: [setID]
+      } })).json();
+  } catch (e) {
+    set = {};
+  }
+
+  // Leaving space here in case I want to do validation here instead of in the component itself
+
+  return set;
+}
+
 export async function createPool(poolName) {
   if (!poolName) {
     return
