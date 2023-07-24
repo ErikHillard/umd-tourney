@@ -90,6 +90,8 @@ export async function getMatch(matchID) {
 }
 
 export async function getSet(setID) {
+  // TODO test this
+
   var set;
   try {
     set = await (await fetch(`${process.env.APIpath}/api/sets/${setID}`, { 
