@@ -15,14 +15,11 @@ function comparePools(poolA, poolB) {
 }
 
 export default async function PoolPage({  }) {
-  var pools = (await getAllPools()).sort(comparePools);
-
-  if (!pools) {
-    pools = []
-  }
-
   return (
-    <PoolsTable />
+    <div className="bg-neutral-50 px-6 py-10 text-left text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200">
+      <h1 className="mb-6 text-5xl font-bold">Pools</h1>
+      <PoolsTable />
+    </div>
   );
 }
 

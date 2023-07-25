@@ -22,3 +22,5 @@ export async function DELETE(request) {
   return NextResponse.json(teams)
 
 }
+
+// TODO Create post with body accepting team name
