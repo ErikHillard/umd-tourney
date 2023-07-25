@@ -7,7 +7,10 @@ export async function GET(request) {
       teams: true,
       matches: {
         include: {
-          teams: true
+          team1: true,
+          team2: true,
+          workTeam: true,
+          sets: true
         }
       },
     }

@@ -4,11 +4,13 @@ import Link from "next/link";
 import MatchDisplay from "../../../components/MatchDisplay";
 import PoolTable from "../../../components/PoolTable";
 import { getPool } from "../../../utils/apiUtils";
+import { compareMatches } from "../../../utils/compare";
 
 export default async function PoolPage({ params }) {
   const pool = await getPool(params.id);
-  const remainingMatches = pool.matches.slice(pool.matchesCompleted)
-  const finishedMatches = pool.matches.slice(0, pool.matchesCompleted)
+  const matches = pool.matches.sort(compareMatches);
+  const remainingMatches = matches.slice(pool.matchesCompleted)
+  const finishedMatches = matches.slice(0, pool.matchesCompleted)
 
   return (
     <div className="bg-neutral-50 px-6 py-10 text-left text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200">

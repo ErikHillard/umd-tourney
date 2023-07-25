@@ -21,26 +21,33 @@ model Pool {
 }
 
 model Team {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String   @unique
-  pool      Pool     @relation(fields: [poolID], references: [id], onDelete: Cascade)
-  poolID    String   @db.ObjectId
-  wins      Int      @default(0)
-  losses    Int      @default(0)
-  pointDiff Int      @default(0)
-  matchIDs  String[] @db.ObjectId
-  matches   Match[]  @relation(fields: [matchIDs], references: [id])
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String  @unique
+  pool        Pool    @relation(fields: [poolID], references: [id], onDelete: Cascade)
+  poolID      String  @db.ObjectId
+  wins        Int     @default(0)
+  losses      Int     @default(0)
+  pointDiff   Int     @default(0)
+  matches1    Match[] @relation("team1")
+  matches2    Match[] @relation("team2")
+  workMatches Match[] @relation("workTeam")
+  index       Int     @default(0)
 }
 
 model Match {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  poolID    String   @db.ObjectId
-  pool      Pool     @relation(fields: [poolID], references: [id], onDelete: Cascade)
-  teamIDs   String[] @db.ObjectId
-  teams     Team[]   @relation(fields: [teamIDs], references: [id])
-  pointDiff Int      @default(0)
-  sets      Set[]
-  finished  Boolean  @default(false)
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  poolID     String  @db.ObjectId
+  pool       Pool    @relation(fields: [poolID], references: [id], onDelete: Cascade)
+  pointDiff  Int     @default(0)
+  sets       Set[]
+  finished   Boolean @default(false)
+  index      Int     @default(0)
+  team1ID    String  @db.ObjectId
+  team1      Team    @relation("team1", fields: [team1ID], references: [id], onDelete: Cascade)
+  team2ID    String  @db.ObjectId
+  team2      Team    @relation("team2", fields: [team2ID], references: [id], onDelete: Cascade)
+  workTeamID String  @db.ObjectId
+  workTeam   Team    @relation("workTeam", fields: [workTeamID], references: [id], onDelete: Cascade)
 }
 
 model Set {
@@ -50,4 +57,5 @@ model Set {
   team1Score Int     @default(0)
   team2Score Int     @default(0)
   finished   Boolean @default(false)
+  index      Int     @default(0)
 }

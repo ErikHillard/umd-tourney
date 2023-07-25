@@ -183,9 +183,9 @@ export async function generateMatchesForPool(poolID) {
   // Assuming 4 teams per pool right now
 
   // 1 v 3 w 2
-  const m1 = (await (await createMatch(poolID, teams[0], teams[2], teams[1])).json()).id;
+  const m1 = (await (await createMatch(poolID, teams[0], teams[2], teams[1])).json());
   for (let i = 0; i < sets; i++) {
-    await createSet(m1);
+    await createSet(m1.id);
   }
 
   // 2 v 4 w 1

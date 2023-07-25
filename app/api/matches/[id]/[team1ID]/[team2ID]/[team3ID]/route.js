@@ -18,16 +18,43 @@ export async function POST(request, { params }) {
     return new NextResponse("Bad Team3 ID", { status: 400 })
   }
 
+  const pool = (await prisma.pool.findUnique({
+    where: {
+      id: poolID
+    },
+    include: {
+      matches: true,
+    }
+  }));
+  var index = 0;
+  if (pool) {
+    index = pool.matches.length;
+  }
+  
+
   const match = await prisma.match.create({
     data: {
+      index: index,
       pool: {
         connect: {
           id: poolID
         }
       },
-      teams: {
-        connect: [{id: team1ID}, {id: team2ID}, {id: team3ID}]
-      }
+      team1: {
+        connect: {
+          id: team1ID
+        }
+      },
+      team2: {
+        connect: {
+          id: team2ID
+        }
+      },
+      workTeam: {
+        connect: {
+          id: team3ID
+        }
+      },
     }
   })
 

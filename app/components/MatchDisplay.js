@@ -4,7 +4,7 @@ export default async function MatchDisplay({ match }) {
   return (
     <>
       <div className="flex justify-between items-end">
-        <h3 className="mt-10 text-2xl font-bold"><Link href={`/matches/${match.id}`}>{`${match.teams[0].name} vs ${match.teams[1].name} with ${match.teams[2].name} working`}</Link></h3>
+        <h3 className="mt-10 text-2xl font-bold"><Link href={`/matches/${match.id}`}>{`${match.team1.name} vs ${match.team2.name} with ${match.workTeam.name} working`}</Link></h3>
         <Link href="/">
           <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Input Scores
@@ -20,8 +20,8 @@ export default async function MatchDisplay({ match }) {
                 <thead className="border-b font-medium dark:border-neutral-500">
                   <tr>
                     <th scope="col" className="px-6 py-4">{"Set #"}</th>
-                    <th scope="col" className="px-6 py-4">{match.teams[0].name}</th>
-                    <th scope="col" className="px-6 py-4">{match.teams[1].name}</th>
+                    <th scope="col" className="px-6 py-4">{match.team1.name}</th>
+                    <th scope="col" className="px-6 py-4">{match.team1.name}</th>
                   </tr>
                 </thead>
                 <tbody>
