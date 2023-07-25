@@ -9,7 +9,9 @@ export async function GET(request, { params }) {
     },
     include: {
       pool: true,
-      matches: true,
+      matches1: true,
+      matches2: true,
+      workMatches: true,
     }
   })
 
@@ -31,9 +33,23 @@ export async function POST(request, { params }) {
     return new NextResponse("Need Pool Name", { status: 400 })
   }
 
+  const pool = (await prisma.pool.findUnique({
+    where: {
+      id: poolID
+    },
+    include: {
+      teams: true,
+    }
+  }));
+  var index = 0;
+  if (pool) {
+    index = pool.teams.length;
+  }
+
   const team = await prisma.team.create({
     data: {
       name: name,
+      index: index,
       pool: {
         connect: {
           id: poolID
@@ -54,23 +70,23 @@ export async function DELETE(request, { params }) {
     }
   });
 
-  var matchIDs = []
+  // var matchIDs = []
 
-  team.matchIDs.forEach(matchID => {
-    matchIDs.push({id: matchID})
-  });
+  // team.matchIDs.forEach(matchID => {
+  //   matchIDs.push({id: matchID})
+  // });
 
 
-  await prisma.team.update({
-    where: {
-      id: params.id
-    },
-    data: {
-      matches: {
-        disconnect: matchIDs
-      }
-    }
-  })
+  // await prisma.team.update({
+  //   where: {
+  //     id: params.id
+  //   },
+  //   data: {
+  //     matches: {
+  //       disconnect: matchIDs
+  //     }
+  //   }
+  // })
 
   const t = await prisma.team.delete({
     where: {

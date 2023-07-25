@@ -24,17 +24,17 @@ export async function DELETE(request, { params }) {
     },
   })
   
-  // Need to first disconnect the teams from the match since it is a many-many relation
-  await prisma.match.update({
-    where: {
-      id: params.id
-    },
-    data: {
-      teams: {
-        disconnect: [{ id: match.teamIDs[0] }, { id: match.teamIDs[1] }, { id: match.teamIDs[2] }]
-      }
-    }
-  })
+  // TODO See if when you delete a team do you need to update team2 or work teams match arrays
+  // await prisma.match.update({
+  //   where: {
+  //     id: params.id
+  //   },
+  //   data: {
+  //     teams: {
+  //       disconnect: [{ id: match.teamIDs[0] }, { id: match.teamIDs[1] }, { id: match.teamIDs[2] }]
+  //     }
+  //   }
+  // })
 
   const deleted = await prisma.match.delete({
     where:{
