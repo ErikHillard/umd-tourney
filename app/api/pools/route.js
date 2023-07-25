@@ -5,7 +5,11 @@ export async function GET(request) {
   const pools = await prisma.pool.findMany({
     include: {
       teams: true,
-      matches: true,
+      matches: {
+        include: {
+          teams: true
+        }
+      },
     }
   })
 
@@ -19,4 +23,6 @@ export async function DELETE(request) {
   return NextResponse.json(pools)
 
 }
+
+// TODO Create post that just creates a pool with no team name
 

@@ -11,14 +11,13 @@ datasource db {
 }
 
 model Pool {
-  id             String  @id @default(auto()) @map("_id") @db.ObjectId
-  name           String  @unique
-  teams          Team[]
-  gamesCompleted Int     @default(0)
-  totalGames     Int     @default(0)
-  matches        Match[]
-  sets           Int     @default(2)
-  pointsPerSet   Int     @default(21)
+  id               String  @id @default(auto()) @map("_id") @db.ObjectId
+  name             String  @unique
+  teams            Team[]
+  matchesCompleted Int     @default(0)
+  matches          Match[]
+  sets             Int     @default(2)
+  pointsPerSet     Int     @default(21)
 }
 
 model Team {
@@ -45,10 +44,10 @@ model Match {
 }
 
 model Set {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  matchID     String  @db.ObjectId
-  match       Match   @relation(fields: [matchID], references: [id], onDelete: Cascade)
-  team1Scores Int[]   @default([])
-  team2Scores Int[]   @default([])
-  finished    Boolean @default(false)
+  id         String  @id @default(auto()) @map("_id") @db.ObjectId
+  matchID    String  @db.ObjectId
+  match      Match   @relation(fields: [matchID], references: [id], onDelete: Cascade)
+  team1Score Int     @default(0)
+  team2Score Int     @default(0)
+  finished   Boolean @default(false)
 }
