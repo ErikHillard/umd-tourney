@@ -6,7 +6,7 @@ export default async function MatchDisplay({ match }) {
       <div className="flex justify-between items-end">
         <h3 className="mt-10 text-2xl font-bold"><Link href={`/matches/${match.id}`}>{`${match.teams[0].name} vs ${match.teams[1].name} with ${match.teams[2].name} working`}</Link></h3>
         <Link href="/">
-          <div class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Input Scores
           </div>
         </Link>
