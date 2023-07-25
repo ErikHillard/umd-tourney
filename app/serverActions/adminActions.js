@@ -69,5 +69,8 @@ export async function createTestTourney(data) {
     await (createTeam("Erik4", pool4ID));
 
     await (generateMatchesForPool(pool1ID));
+    await (generateMatchesForPool(pool2ID));
+    await (generateMatchesForPool(pool3ID));
+    await (generateMatchesForPool(pool4ID));
   }
 }
