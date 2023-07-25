@@ -5,5 +5,7 @@ export function compareMatches(matchA, matchB) {
 }
 
 export function compareTeamsForPools(teamA, teamB) {
-  return teamA.index - teamB.index;
+  const diff = teamA.wins - teamB.wins;
+
+  return (diff == 0) ? (teamA.pointDiff - teamB.pointDiff) : diff;
 }

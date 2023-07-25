@@ -164,10 +164,10 @@ export async function createSet(matchID) {
 
 
 export async function resetTourney() {
-  const res1 = await fetch(`${process.env.APIpath}/api/pools`, {
-    method: "DELETE",
-    cache: 'no-store'
-  });
+  // const res1 = await fetch(`${process.env.APIpath}/api/pools`, {
+  //   method: "DELETE",
+  //   cache: 'no-store'
+  // });
   const res2 = await fetch(`${process.env.APIpath}/api/teams`, {
     method: "DELETE",
     cache: 'no-store'
