@@ -9,7 +9,8 @@ export async function GET(request, { params }) {
       match: {
         include: {
           pool: true,
-          teams: true
+          team1: true,
+          team2: true
         }
       }
     }
