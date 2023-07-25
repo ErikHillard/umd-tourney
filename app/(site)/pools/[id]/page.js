@@ -18,11 +18,11 @@ export default async function PoolPage({ params }) {
       {/* Putting matches here...... not quite sure how I want to display that maybe scheduled matches vs finished matches */}
       <h1 className="mt-8 text-5xl font-bold">Remaining Matches</h1>
       {remainingMatches.map((match) => (
-        <MatchDisplay match={match} />
+        <MatchDisplay match={match} key={match.id}/>
       ))}
       <h1 className="mt-8 text-5xl font-bold">Completed Matches</h1>
       {finishedMatches.map((match) => (
-        <MatchDisplay match={match} />
+        <MatchDisplay match={match} key={match.id}/>
       ))}
     </div>
   )
