@@ -113,10 +113,10 @@ export async function createPool(poolName) {
     return
   }
 
-
-  const res = await fetch(`${process.env.APIpath}/api/pools/${poolName}`, {
+  const res = await fetch(`${process.env.APIpath}/api/pools`, {
     method: "POST",
-    cache: 'no-store'
+    cache: 'no-store',
+    body: JSON.stringify({name: poolName})
   });
 
   return res;
@@ -128,9 +128,10 @@ export async function createTeam(teamName, poolID) {
   }
 
 
-  const res = await fetch(`${process.env.APIpath}/api/teams/${teamName}?poolID=${poolID}`, {
+  const res = await fetch(`${process.env.APIpath}/api/teams/${poolID}`, {
     method: "POST",
-    cache: 'no-store'
+    cache: 'no-store',
+    body: JSON.stringify({name: teamName})
   });
 
   return res;
@@ -164,14 +165,14 @@ export async function createSet(matchID) {
 
 
 export async function resetTourney() {
-  // const res1 = await fetch(`${process.env.APIpath}/api/pools`, {
-  //   method: "DELETE",
-  //   cache: 'no-store'
-  // });
-  const res2 = await fetch(`${process.env.APIpath}/api/teams`, {
+  const res1 = await fetch(`${process.env.APIpath}/api/pools`, {
     method: "DELETE",
     cache: 'no-store'
   });
+  // const res2 = await fetch(`${process.env.APIpath}/api/teams`, {
+  //   method: "DELETE",
+  //   cache: 'no-store'
+  // });
 }
 
 export async function generateMatchesForPool(poolID) {

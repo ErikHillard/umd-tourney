@@ -19,6 +19,22 @@ export async function GET(request) {
   return NextResponse.json(pools)
 }
 
+export async function POST(request, { params }) {
+  const { name } = await request.json()
+
+  if (!name) {
+    return new NextResponse("Need Pool Name", { status: 400 })
+  }
+
+  const pool = await prisma.pool.create({
+    data: {
+      name: name,
+    }
+  }) 
+
+  return NextResponse.json(pool)
+}
+
 export async function DELETE(request) {
 
   const pools = await prisma.pool.deleteMany({})

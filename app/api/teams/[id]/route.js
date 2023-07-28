@@ -24,13 +24,13 @@ export async function GET(request, { params }) {
 }
 
 export async function POST(request, { params }) {
-  const name = params.id
+  const poolID = params.id
+  const { name } = await request.json()
   if (!name) {
     return new NextResponse("Need Team Name", { status: 400 })
   }
-  const poolID = request.nextUrl.searchParams.get("poolID")
   if (!poolID) {
-    return new NextResponse("Need Pool Name", { status: 400 })
+    return new NextResponse("Need Pool ID", { status: 400 })
   }
 
   const pool = (await prisma.pool.findUnique({
@@ -41,10 +41,8 @@ export async function POST(request, { params }) {
       teams: true,
     }
   }));
-  var index = 0;
-  if (pool) {
-    index = pool.teams.length;
-  }
+
+  const index = (pool) ? pool.teams.length : 0;
 
   const team = await prisma.team.create({
     data: {

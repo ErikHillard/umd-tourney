@@ -2,6 +2,8 @@ import { NextResponse } from "next/server"
 import prisma from "../../../libs/prismadb";
 
 export async function GET(request, { params }) {
+  // TODO add valid id verifiers
+
   const pool = await prisma.pool.findUnique({
     where: {
       id: params.id
