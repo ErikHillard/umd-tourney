@@ -8,11 +8,10 @@ export default async function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <Navbar />
-        {/* Providers is there for react query to update dynamically on screen */}
-        {/* <Providers> */}
-          {children}
-        {/* </Providers> */}
+        {/* <div className="flex flex-col h-screen"> */}
+          <Navbar />
+            {children}
+        {/* </div> */}
       </body>
     </html>
   )
