@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Navbar from "./components/Navbar";
-// import { getAllPools } from "../utils/apiUtils";
 import "../styles/globals.css"
 import Providers from "./utils/provider";
 

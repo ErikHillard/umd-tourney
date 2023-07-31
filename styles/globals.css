@@ -4,8 +4,8 @@
 
 @import "tailwindcss/utilities";
 
-/* @layer base {
-  ul, ol {
-    list-style: revert;
-  }
-} */
+html,
+body,
+:root {
+  height: 100%
+}
