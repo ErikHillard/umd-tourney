@@ -8,10 +8,10 @@ export default async function RootLayout({ children }) {
   return (
     <html>
       <body>
-        {/* <div className="flex flex-col h-screen"> */}
+        <div className="flex flex-col h-screen">
           <Navbar />
             {children}
-        {/* </div> */}
+        </div>
       </body>
     </html>
   )
