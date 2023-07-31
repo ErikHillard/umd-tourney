@@ -169,10 +169,6 @@ export async function resetTourney() {
     method: "DELETE",
     cache: 'no-store'
   });
-  // const res2 = await fetch(`${process.env.APIpath}/api/teams`, {
-  //   method: "DELETE",
-  //   cache: 'no-store'
-  // });
 }
 
 export async function generateMatchesForPool(poolID) {
@@ -181,7 +177,7 @@ export async function generateMatchesForPool(poolID) {
   const sets = pool.sets;
 
 
-  // Assuming 4 teams per pool right now
+  // TODO detect amount of teams and assign accordingly
 
   // 1 v 3 w 2
   const m1 = (await (await createMatch(poolID, teams[0], teams[2], teams[1])).json());
