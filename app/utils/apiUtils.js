@@ -23,7 +23,7 @@ export async function getAllTeams() {
 export async function getTeam(teamID) {
   var team;
   try {
-    team = await (await fetch(`${process.env.APIpath}/api/teams/${teamID}`, { 
+    team = await (await fetch(`${process.env.APIpath}/api/teams/?id=${teamID}`, { 
       next: { 
         revalidate: REVALIDATION_TIME,
         tags: [teamID]
@@ -44,7 +44,7 @@ export async function getAllPools() {
     pools = await (await fetch(`${process.env.APIpath}/api/pools`, { 
       next: { 
         revalidate: REVALIDATION_TIME,
-        tags: ['pools']
+        tags: ['pools'],
       } })).json();
   } catch (e) {
     pools = [];
@@ -58,14 +58,15 @@ export async function getAllPools() {
 export async function getPool(poolID) {
   var pool;
   try {
-    pool = await (await fetch(`${process.env.APIpath}/api/pools/${poolID}`, { 
+    pool = await (await fetch(`${process.env.APIpath}/api/pools?id=${poolID}`, { 
       next: { 
         revalidate: REVALIDATION_TIME,
-        tags: [poolID]
+        tags: [poolID],
       } })).json();
   } catch (e) {
     pool = {};
   }
+  
 
   // Leaving space here in case I want to do validation here instead of in the component itself
 
@@ -113,10 +114,10 @@ export async function createPool(poolName) {
     return
   }
 
-
-  const res = await fetch(`${process.env.APIpath}/api/pools/${poolName}`, {
+  const res = await fetch(`${process.env.APIpath}/api/pools`, {
     method: "POST",
-    cache: 'no-store'
+    cache: 'no-store',
+    body: JSON.stringify({name: poolName})
   });
 
   return res;
@@ -128,9 +129,10 @@ export async function createTeam(teamName, poolID) {
   }
 
 
-  const res = await fetch(`${process.env.APIpath}/api/teams/${teamName}?poolID=${poolID}`, {
+  const res = await fetch(`${process.env.APIpath}/api/teams/${poolID}`, {
     method: "POST",
-    cache: 'no-store'
+    cache: 'no-store',
+    body: JSON.stringify({ name: teamName, poolID: poolID})
   });
 
   return res;
@@ -164,11 +166,7 @@ export async function createSet(matchID) {
 
 
 export async function resetTourney() {
-  // const res1 = await fetch(`${process.env.APIpath}/api/pools`, {
-  //   method: "DELETE",
-  //   cache: 'no-store'
-  // });
-  const res2 = await fetch(`${process.env.APIpath}/api/teams`, {
+  const res1 = await fetch(`${process.env.APIpath}/api/pools`, {
     method: "DELETE",
     cache: 'no-store'
   });
@@ -180,7 +178,7 @@ export async function generateMatchesForPool(poolID) {
   const sets = pool.sets;
 
 
-  // Assuming 4 teams per pool right now
+  // TODO detect amount of teams and assign accordingly
 
   // 1 v 3 w 2
   const m1 = (await (await createMatch(poolID, teams[0], teams[2], teams[1])).json());
