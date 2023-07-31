@@ -1,13 +1,9 @@
 import Link from "next/link";
 import { getAllPools } from "../utils/apiUtils";
-// import { useState } from "react";
-// import { getAllPools } from "../../utils/apiUtils";
 
 export default async function Navbar(  ) {
 
   const pools = await getAllPools();
-
-  // Need to rebuild
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">

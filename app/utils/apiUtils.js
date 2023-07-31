@@ -23,7 +23,7 @@ export async function getAllTeams() {
 export async function getTeam(teamID) {
   var team;
   try {
-    team = await (await fetch(`${process.env.APIpath}/api/teams/${teamID}`, { 
+    team = await (await fetch(`${process.env.APIpath}/api/teams/?id=${teamID}`, { 
       next: { 
         revalidate: REVALIDATION_TIME,
         tags: [teamID]
@@ -44,7 +44,7 @@ export async function getAllPools() {
     pools = await (await fetch(`${process.env.APIpath}/api/pools`, { 
       next: { 
         revalidate: REVALIDATION_TIME,
-        tags: ['pools']
+        tags: ['pools'],
       } })).json();
   } catch (e) {
     pools = [];
@@ -58,14 +58,15 @@ export async function getAllPools() {
 export async function getPool(poolID) {
   var pool;
   try {
-    pool = await (await fetch(`${process.env.APIpath}/api/pools/${poolID}`, { 
+    pool = await (await fetch(`${process.env.APIpath}/api/pools?id=${poolID}`, { 
       next: { 
         revalidate: REVALIDATION_TIME,
-        tags: [poolID]
+        tags: [poolID],
       } })).json();
   } catch (e) {
     pool = {};
   }
+  
 
   // Leaving space here in case I want to do validation here instead of in the component itself
 
@@ -131,7 +132,7 @@ export async function createTeam(teamName, poolID) {
   const res = await fetch(`${process.env.APIpath}/api/teams/${poolID}`, {
     method: "POST",
     cache: 'no-store',
-    body: JSON.stringify({name: teamName})
+    body: JSON.stringify({ name: teamName, poolID: poolID})
   });
 
   return res;
