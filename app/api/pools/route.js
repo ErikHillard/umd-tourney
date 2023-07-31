@@ -71,7 +71,7 @@ export async function DELETE(request) {
 
   const pool = await prisma.pool.delete({
     where: {
-      id: params.id
+      id: id
     }
   })
 

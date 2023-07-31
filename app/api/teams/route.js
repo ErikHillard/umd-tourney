@@ -76,10 +76,21 @@ export async function POST(request, { params }) {
 }
 
 export async function DELETE(request) {
+  const id = request.nextUrl.searchParams.get("id");
 
-  const teams = await prisma.team.deleteMany({})
+  if (!id) {
+    const teams = await prisma.team.deleteMany({})
 
-  return NextResponse.json(teams)
+    return NextResponse.json(teams)
+  }
+
+  const team = await prisma.team.delete({
+    where: {
+      id: id
+    }
+  })
+
+  return NextResponse.json(team)
 
 }
 
