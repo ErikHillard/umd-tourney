@@ -6,7 +6,7 @@ import {
   UseFormRegister
 } from 'react-hook-form';
 
-export default function Input( { label, id, type, required, register, errors, disabled } ) {
+export default function Input( { label, id, type = "text", required, register, errors, disabled } ) {
   return ( 
     <div>
       <label 
@@ -23,7 +23,7 @@ export default function Input( { label, id, type, required, register, errors, di
       </label>
       <input
         id={id}
-        type="text"
+        type={type}
         autoComplete={id}
         disabled={disabled}
         {...register(id, { required })}
@@ -46,7 +46,7 @@ export default function Input( { label, id, type, required, register, errors, di
           focus:ring-sky-600 
           sm:text-sm 
           sm:leading-6`,
-          // errors[id] && 'focus:ring-rose-500',
+          errors[id] && 'focus:ring-rose-500',
           disabled && 'opacity-50 cursor-default'
         )}
       />
