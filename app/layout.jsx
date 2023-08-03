@@ -1,18 +1,22 @@
-import Link from "next/link";
 import Navbar from "./components/Navbar";
 import "../styles/globals.css"
-import Providers from "./utils/provider";
+import ToasterContext from "./context/ToasterContext";
+import AuthContext from "./context/AuthConext";
 
 export default async function RootLayout({ children }) {
   
   return (
     <html>
       <body>
-        <Navbar />
-        {/* Providers is there for react query to update dynamically on screen */}
-        {/* <Providers> */}
-          {children}
-        {/* </Providers> */}
+        <AuthContext>
+        <ToasterContext />
+          <div className="flex flex-col h-screen">
+            
+            <Navbar />
+            
+              {children}
+          </div>
+        </AuthContext>
       </body>
     </html>
   )

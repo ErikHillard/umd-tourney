@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { getAllTeams } from "../../utils/apiUtils";
-// import { getAllTeams } from "../../utils/apiUtils";
-
+import { getAllTeams } from "../../actions/get";
 
 // This will list all teams and their current standing
 function compareTeams(teamA, teamB) {
@@ -24,7 +22,7 @@ function compareTeams(teamA, teamB) {
 
 
 export default async function TeamPage({ params }) {
-  var teams = await getAllTeams();
+  let teams = await getAllTeams();
   if (!teams) {
     teams = []
   }

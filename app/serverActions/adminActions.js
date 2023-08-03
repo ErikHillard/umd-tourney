@@ -1,10 +1,10 @@
 'use server'
 
-import { revalidatePath } from "next/cache";
-import { createPool, createTeam, generateMatchesForPool, getPool, resetTourney } from "../utils/apiUtils";
+import { createPool, createTeam, generateMatchesForPool, resetTourney } from "../actions/create";
+
+const REVALIDATION_TIME = process.env.REVALIDATION_TIME;
 
 export async function createPoolAction(data) {
-
   // TODO: check pool does not already exist
   var object = {};
   data.forEach((value, key) => object[key] = value);
@@ -18,15 +18,9 @@ export async function createTeamAction(data) {
   // TODO: need to check for uniqueness here, no symbols, convert spaces to _
   // as well check that the pool exists
 
-  // addTeam(data.get("teamName"), data.get("poolNumber"));
-
   var object = {};
   data.forEach((value, key) => object[key] = value);
   const res = createTeam(object.teamName, object.poolID)
-
-
-
-  // redirect(`/teams/${data.get("teamName")}`);
 }
 
 export async function confirm(data) {
@@ -34,7 +28,6 @@ export async function confirm(data) {
   if (data.get("confirm")) {
     // resetTourney()
     await resetTourney();
-
   }
 }
 

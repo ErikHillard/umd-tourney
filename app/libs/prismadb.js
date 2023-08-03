@@ -3,7 +3,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = globalThis.prisma || new PrismaClient();
 
-if (process.env.NODE_ENV !== 'development') {
+// Don't want to use global in production
+if (process.env.NODE_ENV !== 'production') {
   globalThis.prisma = prisma
 } 
 
