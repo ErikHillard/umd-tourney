@@ -29,6 +29,7 @@ export default function Input( { label, id, type = "text", required, register, e
         {...register(id, { required })}
         className={clsx(`
           mt-2
+          mb-4
           form-input
           block 
           w-full 

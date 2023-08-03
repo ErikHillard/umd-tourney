@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllPools } from "../utils/apiUtils";
+import { getAllPools } from "../actions/get";
 import { compareTeamsForPools } from "../utils/compare";
 import ClientPoolsTable from "./ClientPoolsTable";
 import PoolTable from "./PoolTable";

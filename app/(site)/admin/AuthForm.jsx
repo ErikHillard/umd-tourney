@@ -1,15 +1,27 @@
 'use client';
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import AuthSocialButton from "./AuthSocialButton";
-import Button from "./Button";
-import Input from "./inputs/Input";
+import Button from "../../components/Button";
+import Input from "../../components/inputs/Input";
 import { BsGoogle } from "react-icons/bs"
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { signIn, signOut, useSession } from "next-auth/react"
+import { useRouter } from "next/navigation";
 
 export default function AuthForm({ }) {
+  const session = useSession();
+  const router = useRouter();
   const [variant, setVariant] = useState('LOGIN');
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.status === 'authenticated') {
+      router.push('/admin/dashboard')
+    }
+  }, [session?.status], router);
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -37,18 +49,44 @@ export default function AuthForm({ }) {
     setIsLoading(true);
 
     if (variant === 'REGISTER') {
-      // register
+      axios.post('/api/register', data)
+      .then(() => signIn('credentials', data))
+      .catch(() => toast.error('Something went wrong!'))
+      .finally(() => setIsLoading(false));
     }
 
     if (variant === 'LOGIN') {
-      // next-auth signin
+      signIn('credentials', {
+        ...data,
+        redirect: false
+      })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error('Invalid Credentials');
+        }
+
+        if (!callback?.error && callback?.ok) {
+          toast.success('Logged in!');
+        }
+      })
+      .finally(() => setIsLoading(false));
     }
   }
 
   const socialAction = (action) => {
     setIsLoading(true);
 
-    // Next auth social sign in
+    signIn(action, { redirect: false })
+    .then((callback) => {
+      if (callback?.error) {
+        toast.error('Invalid Credentials');
+      }
+
+      if (!callback?.error && callback?.ok) {
+        toast.success('Logged in!');
+      }
+    })
+    .finally(() => setIsLoading(false));
   }
 
   return (
@@ -74,12 +112,14 @@ export default function AuthForm({ }) {
             className="space-y-6"
             onSubmit={handleSubmit(onSubmit)}
           >
+            
             {variant === "REGISTER" && (
-              <Input id="name" label="Name" register={register} errors={errors} />
+              <Input id="name" label="Name" register={register} errors={errors} disabled={isLoading}/>
             )}
-            <Input id="email" label="Email Address" type="email" register={register} errors={errors} />
-            <Input id="password" label="Password" type="password" register={register} errors={errors} />
+            <Input id="email" label="Email Address" type="email" register={register} errors={errors} disabled={isLoading}/>
+            <Input id="password" label="Password" type="password" register={register} errors={errors} disabled={isLoading}/>
             <Button disabled={isLoading} fullWidth type="submit">{variant === 'LOGIN' ? 'Sign in' : 'Register'}</Button>
+            
           </form>
 
           <div className="mt-6">
@@ -127,7 +167,6 @@ export default function AuthForm({ }) {
             >
               {variant === 'LOGIN' ? 'Create an account' : 'Login'}
             </div>
-
           </div>
         </div>
       </div>

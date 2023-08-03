@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { getAllPools } from "../utils/apiUtils";
+import { getAllPools } from "../actions/get";
 
 export default async function Navbar(  ) {
-
   // const pools = await getAllPools();
 
   return (

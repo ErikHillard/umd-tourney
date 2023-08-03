@@ -1,9 +1,6 @@
-// import { getPool } from "../../../utils/apiUtils";
-
-import Link from "next/link";
+import { getPool } from "../../../actions/get";
 import MatchDisplay from "../../../components/MatchDisplay";
 import PoolTable from "../../../components/PoolTable";
-import { getPool } from "../../../utils/apiUtils";
 import { compareMatches } from "../../../utils/compare";
 
 export default async function PoolPage({ params }) {
