@@ -19,7 +19,8 @@ export default function AuthForm({ }) {
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
-      router.push('/admin/dashboard')
+      console.log("hello")
+      router.push('/')
     }
   }, [session?.status], router);
 

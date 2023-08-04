@@ -5,7 +5,7 @@ import { redirect, useRouter } from 'next/navigation'
 import axios from "axios"
 import { signOut } from 'next-auth/react'
 import { useForm } from 'react-hook-form';
-import Input from '../../../components/inputs/Input';
+import Input from '../../components/inputs/Input';
 
 
 export default function ClientAdminPage( {createPool, createTeam, confirm, createTestTourney} ) {

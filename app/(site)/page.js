@@ -1,5 +1,8 @@
+import Logout from "./Logout";
+
 export default function HomePage( {} ) {
   return (
-    <div>Hello!</div>
+    <div><Logout></Logout></div>
+
   )
 }
