@@ -55,9 +55,12 @@ export async function createSet(matchID) {
     return
   }
 
-  const res = await fetch(`${process.env.APIpath}/api/sets/${matchID}`, {
+  const res = await fetch(`${process.env.APIpath}/api/sets`, {
     method: "POST",
-    cache: 'no-store'
+    cache: 'no-store',
+    body: JSON.stringify({
+      matchID: matchID,
+    })
   });
 
   return res;

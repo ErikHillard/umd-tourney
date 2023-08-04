@@ -43,12 +43,24 @@ export async function GET(request) {
   }
 }
 
-export async function POST(request, { params }) {
+export async function POST(request) {
+
+  let poolID = n = "";
+  try {
+    const body = await request.json()
+    n = body.name;
+    poolID = body.poolID;
+  } catch (e) {
+    return new NextResponse('Need Body', { status: 400 })
+  }
 
   try {
-    const { poolID, name } = await request.json();
+    const currentUser = await getCurrentUser();
 
-    if (!name) {
+    if (!currentUser?.id || !currentUser?.email) {
+      return new NextResponse("Unauthorizied", { status: 401 })
+    }
+    if (!n) {
       return new NextResponse("Need Team Name", { status: 400 })
     }
     if (!poolID) {
@@ -66,7 +78,7 @@ export async function POST(request, { params }) {
     const index = (pool) ? pool.teams.length : 0;
     const team = await prisma.team.create({
       data: {
-        name: name,
+        name: n,
         index: index,
         pool: {
           connect: {
@@ -86,6 +98,12 @@ export async function POST(request, { params }) {
 export async function DELETE(request) {
   try {
     const id = request.nextUrl.searchParams.get("id");
+
+    const currentUser = await getCurrentUser();
+
+    if (!currentUser?.id || !currentUser?.email) {
+      return new NextResponse("Unauthorizied", { status: 401 })
+    }
 
     if (!id) {
       const teams = await prisma.team.deleteMany({})

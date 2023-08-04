@@ -5,8 +5,28 @@ import prisma from "../../libs/prismadb";
 export async function GET(request) {
   const id = request.nextUrl.searchParams.get("id");
 
-  if (!id) {
-    const pools = await prisma.pool.findMany({
+  try {
+    if (!id) {
+      const pools = await prisma.pool.findMany({
+        include: {
+          teams: true,
+          matches: {
+            include: {
+              team1: true,
+              team2: true,
+              workTeam: true,
+              sets: true
+            }
+          },
+        }
+      })
+
+      return NextResponse.json(pools)
+    }
+    const pool = await prisma.pool.findUnique({
+      where: {
+        id: id
+      },
       include: {
         teams: true,
         matches: {
@@ -20,40 +40,25 @@ export async function GET(request) {
       }
     })
 
-    return NextResponse.json(pools)
-  }
-  const pool = await prisma.pool.findUnique({
-    where: {
-      id: id
-    },
-    include: {
-      teams: true,
-      matches: {
-        include: {
-          team1: true,
-          team2: true,
-          workTeam: true,
-          sets: true
-        }
-      },
+    if (!pool) {
+      return new NextResponse("Need Pool Name", { status: 400 })
     }
-  })
-
-  if (!pool) {
-    return new NextResponse("Need Pool Name", { status: 400 })
+    return NextResponse.json(pool)
+  } catch (e) {
+    console.log(e, 'SERVER_ERROR')
+    return new NextResponse("Server Error GET Pool");
   }
-  return NextResponse.json(pool)
 }
 
 export async function POST(request) {
-  let name = ""
+  let n = ""
   try {
     const body = await request.json()
-    name = body.name;
+    n = body.name;
   } catch (e) {
     return new NextResponse('Need Body', { status: 400 })
   }
-  
+
   try {
     const currentUser = await getCurrentUser();
 
@@ -61,13 +66,13 @@ export async function POST(request) {
       return new NextResponse("Unauthorizied", { status: 401 })
     }
 
-    if (!name) {
+    if (!n) {
       return new NextResponse("Need Pool Name", { status: 400 })
     }
 
     const pool = await prisma.pool.create({
       data: {
-        name: name,
+        name: n,
       }
     })
 
@@ -81,21 +86,25 @@ export async function POST(request) {
 export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get("id");
 
-  if (!id) {
-    const pools = await prisma.pool.deleteMany({})
+  try {
+    const currentUser = await getCurrentUser();
 
-    return NextResponse.json(pools)
-  }
-
-  const pool = await prisma.pool.delete({
-    where: {
-      id: id
+    if (!currentUser?.id || !currentUser?.email) {
+      return new NextResponse("Unauthorizied", { status: 401 })
     }
-  })
 
-  return NextResponse.json(pool)
-
+    if (!id) {
+      const pools = await prisma.pool.deleteMany({})
+      return NextResponse.json(pools)
+    }
+    const pool = await prisma.pool.delete({
+      where: {
+        id: id
+      }
+    })
+    return NextResponse.json(pool)
+  } catch (e) {
+    console.log(e, 'SERVER_ERROR');
+    return new NextResponse("Pools Post Error", { status: 500 });
+  }
 }
-
-// TODO Create post that just creates a pool with no team name
-
