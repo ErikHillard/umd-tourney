@@ -2,14 +2,13 @@ import { getServerSession } from "next-auth";
 import prisma from "../libs/prismadb";
 import { authOptions } from "./../api/auth/[...nextauth]/route";
 
-const REVALIDATION_TIME = process.env.REVALIDATION_TIME;
+const REVALIDATION_TIME = 1;
 
 export async function getAllTeams() {
   try {
     const teams = await (await fetch(`${process.env.APIpath}/api/teams`, {
       cache: 'no-store',
       next: {
-        revalidate: REVALIDATION_TIME,
         tags: ['teams']
       }
     })).json();
@@ -23,8 +22,8 @@ export async function getAllTeams() {
 export async function getAllPools() {
   try {
     const pools = await (await fetch(`${process.env.APIpath}/api/pools`, {
+      cache: 'no-store',
       next: {
-        revalidate: REVALIDATION_TIME,
         tags: ['pools'],
       }
     })).json();

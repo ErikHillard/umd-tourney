@@ -19,7 +19,6 @@ export default function AuthForm({ }) {
 
   useEffect(() => {
     if (session?.status === 'authenticated') {
-      console.log("hello")
       router.push('/')
     }
   }, [session?.status], router);

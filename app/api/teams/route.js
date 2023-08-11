@@ -26,11 +26,34 @@ export async function GET(request) {
       },
       include: {
         pool: true,
-        matches1: true,
-        matches2: true,
-        workMatches: true,
+        matches1: {
+          include: {
+            team1: true,
+            team2: true,
+            workTeam: true,
+            sets: true
+          }
+        },
+        matches2: {
+          include: {
+            team1: true,
+            team2: true,
+            workTeam: true,
+            sets: true
+          }
+        },
+        workMatches: {
+          include: {
+            team1: true,
+            team2: true,
+            workTeam: true,
+            sets: true
+          }
+        },
       }
     })
+
+    console.log(team, 'team')
 
     if (!team) {
       return new NextResponse("Need Team ID", { status: 400 })

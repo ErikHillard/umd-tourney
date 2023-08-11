@@ -1,18 +1,24 @@
-import { notFound } from "next/navigation";
 import { getTeam } from "../../../actions/get";
+import MatchDisplay from "../../../components/MatchDisplay";
+import { compareMatches } from "../../../utils/compare";
 
 // This will list all teams and their current standing
 
 export default async function TeamPage({ params }) {
   const team = await getTeam(params.id);
   if (JSON.stringify(team) === "{}") {
-    // console.log("hello")
     // notFound();
+    return (<>No team found</>)
   }
+  const matches = team.matches1.concat(team.matches2, team.workMatches).sort(compareMatches);
 
   return (
-    <div>
-      <h1>Team Name {team.name} and {team.wins}</h1>
+    <div className="px-6 py-10 text-left text-neutral-800">
+      <h1 className="mb-6 text-5xl font-bold">{team.name}</h1>
+      {/* TODO record */}
+      {matches.map((match) => (
+        <MatchDisplay match={match} />
+      ))}
     </div>
   )
 }

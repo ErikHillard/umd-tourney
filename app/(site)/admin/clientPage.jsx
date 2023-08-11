@@ -56,8 +56,6 @@ export default function ClientAdminPage({  }) {
     axios.delete('/api/pools', null)
       .then(() => (
         axios.post('/api/tournament')))
-      .then((result) =>
-        console.log(result))
       .then(() =>
         toast.success("Finished Creating test tourney"))
       .finally(() => setIsLoading(false))
