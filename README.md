@@ -19,3 +19,10 @@ This has been deployed on Vercel and can be accessed at [UMD Club Volleyball Tou
 This is a project I started on my own to help the UMD Volleyball Club run tournaments faster and more efficiently. 
 
 Because players might have to play while also running the tournament this reduces load on them while also calculating the necessary changes.
+
+## Admin
+
+I have added an email / password you can use if you want to get in.
+
+Email: e@gmail.com
+Password: Password
