@@ -6,8 +6,8 @@ import { getTeam } from "../../../actions/get";
 export default async function TeamPage({ params }) {
   const team = await getTeam(params.id);
   if (JSON.stringify(team) === "{}") {
-    console.log("hello")
-    notFound();
+    // console.log("hello")
+    // notFound();
   }
 
   return (

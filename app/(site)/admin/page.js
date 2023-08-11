@@ -1,13 +1,9 @@
-import { signOut } from 'next-auth/react';
-import { redirect } from 'next/navigation';
-import { toast } from 'react-hot-toast';
-import { getCurrentUser } from '../../actions/get'
-import { createPoolAction, createTeamAction, confirm, createTestTourney } from '../../serverActions/adminActions'
+import { getCurrentUser } from '../../actions/get';
 import ClientAdminPage from './clientPage'
 
 
-export default function AdminPage( {} ) {
+export default async function AdminPage( {} ) {
   return (
-    <ClientAdminPage createPool={createPoolAction} createTeam={createTeamAction} confirm={confirm} createTestTourney={createTestTourney} />
+    <ClientAdminPage />
   )
 }

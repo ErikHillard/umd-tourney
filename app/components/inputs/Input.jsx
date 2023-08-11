@@ -7,6 +7,31 @@ import {
 } from 'react-hook-form';
 
 export default function Input( { label, id, type = "text", required, register, errors, disabled } ) {
+  if (type === 'checkbox') {
+    return (
+      <div>
+        <label 
+        htmlFor={id} 
+        className="
+          block 
+          text-sm 
+          font-medium 
+          leading-6 
+          text-gray-900
+        "
+      >
+        {label}
+      </label>
+      <input
+        id={id}
+        type={type}
+        autoComplete={id}
+        disabled={disabled}
+        {...register(id, { required })}
+      />
+      </div>
+    )
+  }
   return ( 
     <div>
       <label 

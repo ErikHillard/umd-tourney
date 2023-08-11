@@ -57,7 +57,7 @@ export async function POST(request) {
   try {
     const currentUser = await getCurrentUser();
 
-    if (!currentUser?.id || !currentUser?.email) {
+    if (!currentUser?.id || !currentUser?.email || !currentUser?.role === 'admin') {
       return new NextResponse("Unauthorizied", { status: 401 })
     }
     if (!n) {
@@ -101,7 +101,7 @@ export async function DELETE(request) {
 
     const currentUser = await getCurrentUser();
 
-    if (!currentUser?.id || !currentUser?.email) {
+    if (!currentUser?.id || !currentUser?.email || !currentUser?.role === 'admin') {
       return new NextResponse("Unauthorizied", { status: 401 })
     }
 

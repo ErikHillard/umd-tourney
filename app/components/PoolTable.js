@@ -16,7 +16,7 @@ export default async function PoolTable({ pool }) {
                 </tr>
               </thead>
               <tbody>
-              {pool.teams.map((team) => (
+              {pool?.teams?.map((team) => (
                 <tr className="border-b dark:border-neutral-500" key={team.name}>
                   <td className="whitespace-nowrap px-6 py-4 font-medium"><Link href={`/teams/${team.id}`}>{team.name}</Link></td>
                   <td className="whitespace-nowrap px-6 py-4">{team.wins}</td>

@@ -7,6 +7,7 @@ const REVALIDATION_TIME = process.env.REVALIDATION_TIME;
 export async function getAllTeams() {
   try {
     const teams = await (await fetch(`${process.env.APIpath}/api/teams`, {
+      cache: 'no-store',
       next: {
         revalidate: REVALIDATION_TIME,
         tags: ['teams']
@@ -60,7 +61,7 @@ export async function getPool(poolID) {
     })).json();
     return pool;
   } catch (e) {
-    console.log(e, 'SERVER_ERROR');
+    console.log(e, 'getPoolError');
     return {};
   }
 }
@@ -96,14 +97,15 @@ export async function getSet(setID) {
 }
 
 export async function getSession() {
-  return await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
+  return session;
 }
 
 export async function getCurrentUser() {
   try {
     const session = await getSession();
 
-    if (session?.user?.email) {
+    if (!session?.user?.email) {
       return null;
     }
 
@@ -119,7 +121,6 @@ export async function getCurrentUser() {
 
     return currentUser;
   } catch (e) {
-    console.log(e, 'SERVER_ERROR')
     return null;
   }
 }
