@@ -9,15 +9,17 @@ export default async function RootLayout({ children }) {
   return (
     <html>
       <body>
-        <AuthContext>
-          <TanstackProvider>
+        <TanstackProvider>
+
+          <AuthContext>
             <ToasterContext />
             <div className="flex flex-col h-screen">
               <Navbar />
               {children}
             </div>
-          </TanstackProvider>
-        </AuthContext>
+          </AuthContext>
+        </TanstackProvider>
+
       </body>
     </html>
   )

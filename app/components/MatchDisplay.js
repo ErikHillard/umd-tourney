@@ -1,6 +1,8 @@
+'use client'
+
 import Link from "next/link";
 
-export default async function MatchDisplay({ match }) {
+export default function MatchDisplay({ match }) {
   // TODO disable on set 2 being finished
   return (
     <>
@@ -18,13 +20,13 @@ export default async function MatchDisplay({ match }) {
                 <Link href={`/teams/${match.team1.id}`}>{match.team1.name}</Link>
               </th>
               <th scope="col" className="py-3 bg-gray-50 dark:bg-gray-800">
-              <Link href={`/teams/${match.team2.id}`}>{match.team2.name}</Link>
+                <Link href={`/teams/${match.team2.id}`}>{match.team2.name}</Link>
               </th>
             </tr>
           </thead>
           <tbody>
             {match.sets.map((set, index) => (
-              <tr className="border-b border-gray-200 dark:border-gray-700">
+              <tr className="border-b border-gray-200 dark:border-gray-700" key={set.id}>
                 <th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
                   Set {index + 1}
                 </th>
@@ -41,13 +43,14 @@ export default async function MatchDisplay({ match }) {
                 <p className="italic">{`Working:`}</p>
               </th>
               <td colSpan={2} className="py-4">
-              <Link className="italic" href={`/teams/${match.workTeam.id}`}>{match.workTeam.name}</Link>
+                <Link className="italic" href={`/teams/${match.workTeam.id}`}>{match.workTeam.name}</Link>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
 
+      {/* Make this into a button that is disabled on match.finished? */}
       <Link href={`/matches/${match.id}`}>
         <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
           Input Scores

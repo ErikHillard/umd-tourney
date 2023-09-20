@@ -24,7 +24,7 @@ function compareTeams(teamA, teamB) {
 export default async function TeamPage({ params }) {
   let teams = await getAllTeams();
   if (!teams) {
-    console.log(teams, 'teams')
+    return (<>No Teams Found</>)
   }
 
   return (

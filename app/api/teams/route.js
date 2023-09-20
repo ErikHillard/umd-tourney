@@ -53,8 +53,6 @@ export async function GET(request) {
       }
     })
 
-    console.log(team, 'team')
-
     if (!team) {
       return new NextResponse("Need Team ID", { status: 400 })
     }
