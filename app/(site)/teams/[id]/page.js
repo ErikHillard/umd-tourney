@@ -1,6 +1,7 @@
 import { getTeam } from "../../../actions/get";
 import MatchDisplay from "../../../components/MatchDisplay";
 import { compareMatches } from "../../../utils/compare";
+import ClientTeamPage from "./ClientTeamPage";
 
 // This will list all teams and their current standing
 
@@ -19,6 +20,7 @@ export default async function TeamPage({ params }) {
       {matches.map((match) => (
         <MatchDisplay match={match} />
       ))}
+      <ClientTeamPage teamID={params.id} />
     </div>
   )
 }

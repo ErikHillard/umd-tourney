@@ -2,20 +2,21 @@ import Navbar from "./components/Navbar";
 import "../styles/globals.css"
 import ToasterContext from "./context/ToasterContext";
 import AuthContext from "./context/AuthConext";
+import TanstackProvider from "./utils/TanstackProvider";
 
 export default async function RootLayout({ children }) {
-  
+
   return (
     <html>
       <body>
         <AuthContext>
-        <ToasterContext />
-          <div className="flex flex-col h-screen">
-            
-            <Navbar />
-            
+          <TanstackProvider>
+            <ToasterContext />
+            <div className="flex flex-col h-screen">
+              <Navbar />
               {children}
-          </div>
+            </div>
+          </TanstackProvider>
         </AuthContext>
       </body>
     </html>
