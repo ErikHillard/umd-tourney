@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 import { createPool, createTeam, generateMatchesForPool } from "../../actions/create";
-import { getCurrentUser } from "../../actions/get";
+import getCurrentUser from "../../get/server/getCurrentUser";
+
 import prisma from "../../libs/prismadb";
 
 export async function POST(request) {

@@ -1,9 +1,6 @@
 import Link from "next/link";
-import { getAllPools } from "../actions/get";
 
 export default async function Navbar(  ) {
-  // const pools = await getAllPools();
-
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-fill flex flex-wrap items-center justify-between mx-auto p-4">

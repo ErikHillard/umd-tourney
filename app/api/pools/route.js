@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { getCurrentUser } from "../../actions/get";
+import getCurrentUser from "../../get/server/getCurrentUser";
 import prisma from "../../libs/prismadb";
 
 export async function GET(request) {

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import prisma from "../../libs/prismadb"
-
+import getCurrentUser from "../../get/server/getCurrentUser";
 
 
 export async function GET(request, { params }) {

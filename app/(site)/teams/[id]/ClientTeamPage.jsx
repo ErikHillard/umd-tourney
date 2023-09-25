@@ -1,18 +1,18 @@
 'use client'
 
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useMemo } from "react";
 import MatchDisplay from "../../../components/MatchDisplay";
+import getTeam from "../../../get/client/getTeam";
 import { compareMatches } from "../../../utils/compare";
 
 // This will list all teams and their current standing
 
 export default function ClientTeamPage({ teamID }) {
-  const { data:team, isError, isInitialLoading, isLoading } = useQuery({
+  const { data: team, isError, isInitialLoading, isLoading } = useQuery({
     queryKey: [`${teamID}`],
     queryFn: async () => {
-      const { data } = await axios.get(`/api/teams/?id=${teamID}`);
+      const { data } = await getTeam(teamID);
       console.log('fetched')
       return data;
     },
@@ -20,6 +20,10 @@ export default function ClientTeamPage({ teamID }) {
     refetchInterval: 15*1000,
     keepPreviousData: true
   })
+  // const teams = getAllPools();
+  // if(teams) {
+  //   console.log(teams, "pools")
+  // }
 
   const matches = useMemo(() => team?.matches1?.concat(team?.matches2, team?.workMatches).sort(compareMatches), [team]);
 

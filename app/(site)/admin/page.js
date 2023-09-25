@@ -1,4 +1,3 @@
-import { getCurrentUser } from '../../actions/get';
 import ClientAdminPage from './clientPage'
 
 
