@@ -46,7 +46,7 @@ export async function GET(request) {
     return NextResponse.json(pool)
   } catch (e) {
     console.log(e, 'SERVER_ERROR')
-    return new NextResponse("Server Error GET Pool");
+    return new NextResponse("Server Error GET Pool", { status: 500});
   }
 }
 

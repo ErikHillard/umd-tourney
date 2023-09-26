@@ -4,21 +4,6 @@ import { authOptions } from "./../api/auth/[...nextauth]/route";
 
 const REVALIDATION_TIME = 1;
 
-export async function getAllTeams() {
-  try {
-    const teams = await (await fetch(`${process.env.APIpath}/api/teams`, {
-      cache: 'no-store',
-      next: {
-        tags: ['teams']
-      }
-    })).json();
-    return teams;
-  } catch (e) {
-    console.log(e, 'SERVER_ERROR');
-    return [];
-  }
-}
-
 export async function getAllPools() {
   try {
     const pools = await (await fetch(`${process.env.APIpath}/api/pools`, {
@@ -31,22 +16,6 @@ export async function getAllPools() {
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
     return [];
-  }
-}
-
-export async function getTeam(teamID) {
-  try {
-    const team = await (await fetch(`${process.env.APIpath}/api/teams/?id=${teamID}`, {
-      next: {
-        revalidate: REVALIDATION_TIME,
-        tags: [teamID]
-      }
-    })).json();
-
-    return team;
-  } catch (e) {
-    console.log(e, 'SERVER_ERROR');
-    return {};
   }
 }
 

@@ -18,7 +18,6 @@ export default function ClientTeamPage({ teamID }) {
     },
     staleTime: 5*1000,
     refetchInterval: 15*1000,
-    keepPreviousData: true
   })
   // const teams = getAllPools();
   // if(teams) {
