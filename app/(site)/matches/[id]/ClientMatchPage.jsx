@@ -1,6 +1,6 @@
 'use client'
 
-import { useRouter } from "next/navigation"
+import { notFound, useRouter } from "next/navigation"
 import { useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import getMatch from "../../../get/client/getMatch";
@@ -38,6 +38,10 @@ export default function ClientMatchPage({ matchID }) {
   }
 
   const currentSet = useMemo(() => isLoading ? set : (Math.max(set, getCurrentSetFromRemote(match))), [match, set])
+
+  if (isError) {
+    notFound()
+  }
 
   const onSubmit = (data) => {
     queryClient.invalidateQueries({ queryKey: [`${matchID}`]})
