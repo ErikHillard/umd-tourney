@@ -1,4 +1,4 @@
-export default function AuthSocialButton({ icon, onClick }) {
+export default function AuthSocialButton({ statement, icon, onClick }) {
   const Icon = icon
   return (
     <button
@@ -21,7 +21,9 @@ export default function AuthSocialButton({ icon, onClick }) {
         focus:outline-offset-0
         "
     >
-      <Icon />
+      <div className="flex flex-row flex-nowrap gap-3">
+        <span>{statement}</span><Icon />
+      </div>
     </button>
   );
 }
