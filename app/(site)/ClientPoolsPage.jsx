@@ -14,8 +14,6 @@ export default function ClientPoolsPage({  }) {
       console.log('fetched');
       return data;
     },
-    staleTime: 5*1000,
-    refetchInterval: 15*1000,
   })
   if (isError) {
     return (<>Something went wrong</>)

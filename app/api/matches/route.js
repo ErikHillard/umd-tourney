@@ -9,8 +9,9 @@ export async function GET(request, { params }) {
     if (!id) {
       const matches = await prisma.match.findMany({
         include: {
-          pool: true,
-          teams: true,
+          team1: true,
+          team2: true,
+          workTeam: true,
           sets: true,
         }
       })
@@ -23,7 +24,9 @@ export async function GET(request, { params }) {
         },
         include: {
           pool: true,
-          teams: true,
+          team1: true,
+          team2: true,
+          workTeam: true,
           sets: true
         }
       })

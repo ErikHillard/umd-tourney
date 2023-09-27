@@ -16,8 +16,6 @@ export default function ClientPoolPage({ poolID }) {
       console.log('fetched');
       return data;
     },
-    staleTime: 5*1000,
-    refetchInterval: 15*1000,
   })
   const matches = useMemo(() => pool?.matches?.sort(compareMatches), [pool])
   const remainingMatches = useMemo(() => matches?.slice(pool.matchesCompleted), [matches])
