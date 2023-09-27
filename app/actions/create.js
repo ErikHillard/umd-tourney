@@ -1,4 +1,4 @@
-import { getPool } from "./get";
+import axios from "axios";
 
 const REVALIDATION_TIME = process.env.REVALIDATION_TIME;
 
@@ -98,7 +98,8 @@ export async function createSet(matchID) {
 }
 
 export async function generateMatchesForPool(poolID) {
-  const pool = await getPool(poolID);
+  const pool = await (await fetch(`${process.env.APIpath}/api/pools?id=${poolID}`)).json();
+  console.log(pool)
   const teams = pool.teams;
 
   const sets = pool.sets;
