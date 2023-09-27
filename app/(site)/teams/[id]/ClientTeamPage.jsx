@@ -5,6 +5,7 @@ import { useMemo } from "react";
 import MatchDisplay from "../../../components/MatchDisplay";
 import getTeam from "../../../get/client/getTeam";
 import { compareMatches } from "../../../utils/compare";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 // This will list all teams and their current standing
 
@@ -30,7 +31,7 @@ export default function ClientTeamPage({ teamID }) {
     return (<>Something went wrong</>)
   }
 
-  return isInitialLoading ? (<>...loading</>) : (
+  return isInitialLoading ? <LoadingSpinner /> : (
     <div className="px-6 py-10 text-left text-neutral-800">
       <h1 className="mb-6 text-5xl font-bold">{team.name}</h1>
       {/* TODO record */}

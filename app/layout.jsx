@@ -8,7 +8,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html>
-      <body>
+      <body className="bg-gray-100">
         <TanstackProvider>
 
           <AuthContext>

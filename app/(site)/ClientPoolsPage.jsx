@@ -1,18 +1,16 @@
 'use client'
 
 import Link from "next/link";
-import getAllPools from "../../get/client/getAllPools";
-import { compareTeamsForPools } from "../../utils/compare";
-import PoolTable from "../../components/PoolTable";
+import PoolTable from "../components/PoolTable";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
-import axios from "axios";
+import LoadingSpinner from "../components/LoadingSpinner";
+import getAllPools from "../get/client/getAllPools";
 
 export default function ClientPoolsPage({  }) {
   const { data: pools, isError, isInitialLoading, isLoading } = useQuery({
     queryKey: [`pools`],
     queryFn: async () => {
-      const { data } = await axios.get("/api/pools");
+      const { data } = await getAllPools();
       console.log('fetched');
       return data;
     },
@@ -23,7 +21,7 @@ export default function ClientPoolsPage({  }) {
     return (<>Something went wrong</>)
   }
 
-  return isInitialLoading ? (<>...loading</>) : (
+  return isInitialLoading ? <LoadingSpinner /> : (
     <div className="px-6 py-10 text-left text-neutral-800">
       <h1 className="mb-6 text-5xl font-bold">Pools</h1>
       {pools.map((pool) => (

@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 export default function PoolTable({ pool }) {
-  console.log(pool, "pool")
   return (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -1,8 +1,10 @@
-import ClientPoolsPage from "./ClientPoolsPage";
+import { redirect } from "next/navigation";
+import ClientPoolsPage from "../ClientPoolsPage";
 
 export default async function PoolsPage({  }) {
+  redirect("/");
   return (
-    <ClientPoolsPage />
+    <></>
   );
 }
 

@@ -6,6 +6,7 @@ import PoolTable from "../../../components/PoolTable";
 import getPool from "../../../get/client/getPool";
 import { compareMatches } from "../../../utils/compare";
 import { useQuery } from "@tanstack/react-query";
+import LoadingSpinner from "../../../components/LoadingSpinner";
 
 export default function ClientPoolPage({ poolID }) {
   const { data: pool, isError, isInitialLoading, isLoading } = useQuery({
@@ -25,12 +26,12 @@ export default function ClientPoolPage({ poolID }) {
     return (<>Something went wrong</>)
   }
 
-  return isInitialLoading ? (<>...loading</>) : (
+  return isInitialLoading ? <LoadingSpinner /> : (
     <div className="px-6 py-10 text-left text-neutral-800">
       <h1 className="mb-6 text-5xl font-bold">{pool.name}</h1>
       <PoolTable pool={pool} />
 
-      {/* Putting matches here...... not quite sure how I want to display that maybe scheduled matches vs finished matches */}
+      {/* TODO Putting matches here...... not quite sure how I want to display that maybe scheduled matches vs finished matches */}
       <h1 className="mt-8 text-5xl font-bold">Remaining Matches</h1>
       {remainingMatches?.map((match) => (
         <MatchDisplay match={match} key={match.id}/>
