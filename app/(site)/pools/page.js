@@ -1,11 +1,10 @@
-import PoolsTable from "../../components/PoolsTable";
+import { redirect } from "next/navigation";
+import ClientPoolsPage from "../ClientPoolsPage";
 
 export default async function PoolsPage({  }) {
+  redirect("/");
   return (
-    <div className="bg-neutral-50 px-6 py-10 text-left text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200">
-      <h1 className="mb-6 text-5xl font-bold">Pools</h1>
-      <PoolsTable />
-    </div>
+    <></>
   );
 }
 

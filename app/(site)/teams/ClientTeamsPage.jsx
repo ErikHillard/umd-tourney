@@ -1,9 +1,26 @@
 'use client'
-
+import getAllTeams from "../../get/client/getAllTeams";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
-export default function PoolTable({ pool }) {
-  return (
+export default function ClientTeamsPage({  }) {
+  const { data: teams, isError, isInitialLoading, isLoading } = useQuery({
+    queryKey: [`teams`],
+    queryFn: async () => {
+      const { data } = await getAllTeams();
+      console.log('fetched')
+      return data;
+    },
+    staleTime: 5*1000,
+    refetchInterval: 15*1000,
+  })
+
+  if (isError) {
+    return (<>Something went wrong</>)
+  }
+
+  return isInitialLoading ? <LoadingSpinner /> : (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -18,8 +35,8 @@ export default function PoolTable({ pool }) {
                 </tr>
               </thead>
               <tbody>
-              {pool?.teams?.map((team) => (
-                <tr className="border-b dark:border-neutral-500" key={team.id}>
+              {teams.map((team) => (
+                <tr className="border-b dark:border-neutral-500" key={team.name}>
                   <td className="whitespace-nowrap px-6 py-4 font-medium"><Link href={`/teams/${team.id}`}>{team.name}</Link></td>
                   <td className="whitespace-nowrap px-6 py-4">{team.wins}</td>
                   <td className="whitespace-nowrap px-6 py-4">{team.losses}</td>

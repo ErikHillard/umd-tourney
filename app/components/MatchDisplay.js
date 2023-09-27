@@ -1,43 +1,63 @@
+'use client'
+
 import Link from "next/link";
 
-export default async function MatchDisplay({ match }) {
+export default function MatchDisplay({ match }) {
+  // TODO disable on set 2 being finished
   return (
     <>
-      <div className="flex justify-between items-end">
-        <h3 className="mt-10 text-2xl font-bold"><Link href={`/matches/${match.id}`}>{`${match.team1.name} vs ${match.team2.name} with ${match.workTeam.name} working`}</Link></h3>
-        <Link href="/">
-          <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Input Scores
-          </div>
-        </Link>
+      <div className="flex justify-center mt-10 mb-3 w-full text-center items-center">
+        <h3 className="text-2xl font-bold">{`Match ${match.index + 1}`}</h3>
       </div>
-      {/* TODO Ref button here */}
-      <div className="flex flex-col">
-        <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-            <div className="overflow-hidden">
-              <table className="min-w-full text-left text-sm font-light">
-                <thead className="border-b font-medium dark:border-neutral-500">
-                  <tr>
-                    <th scope="col" className="px-6 py-4">{"Set #"}</th>
-                    <th scope="col" className="px-6 py-4">{match.team1.name}</th>
-                    <th scope="col" className="px-6 py-4">{match.team1.name}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {match.sets.map((set, index) => (
-                  <tr className="border-b dark:border-neutral-500" key={set.id}>
-                    <td className="whitespace-nowrap px-6 py-4">{index + 1}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{set.team1Score}</td>
-                    <td className="whitespace-nowrap px-6 py-4">{set.team1Score}</td>
-                  </tr>
-                ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+      <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-center text-gray-500 dark:text-gray-400 table-fixed">
+          <thead className=" text-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" className="w-20 py-3 bg-gray-50 dark:bg-gray-800">
+                Set #
+              </th>
+              <th scope="col" className="py-3">
+                <Link href={`/teams/${match.team1.id}`}>{match.team1.name}</Link>
+              </th>
+              <th scope="col" className="py-3 bg-gray-50 dark:bg-gray-800">
+                <Link href={`/teams/${match.team2.id}`}>{match.team2.name}</Link>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {match.sets.map((set, index) => (
+              <tr className="border-b border-gray-200 dark:border-gray-700" key={set.id}>
+                <th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800">
+                  Set {index + 1}
+                </th>
+                <td className="py-4">
+                  {set.team1Score}
+                </td>
+                <td className="py-4 bg-gray-50 dark:bg-gray-800">
+                  {set.team2Score}
+                </td>
+              </tr>
+            ))}
+            <tr className="border-b border-gray-200 dark:border-gray-700">
+              <th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap">
+                <p className="italic">{`Working:`}</p>
+              </th>
+              <td colSpan={2} className="py-4">
+                <Link className="italic" href={`/teams/${match.workTeam.id}`}>{match.workTeam.name}</Link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {/* Make this into a button that is disabled on match.finished? */}
+      <Link href={`/matches/${match.id}`}>
+        <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+          Input Scores
         </div>
-      </div>
+      </Link>
+
+
     </>
   );
 }

@@ -1,70 +1,105 @@
-import { getPool } from "./get";
+import axios from "axios";
 
 const REVALIDATION_TIME = process.env.REVALIDATION_TIME;
 
 export async function createPool(poolName) {
-  if (!poolName) {
-    return
-  }
+  const pool = await prisma.pool.create({
+    data: {
+      name: poolName,
+    }
+  })
 
-  const res = await fetch(`${process.env.APIpath}/api/pools`, {
-    method: "POST",
-    cache: 'no-store',
-    body: JSON.stringify({ name: poolName })
-  });
-
-  return res;
+  return pool;
 }
 
 export async function createTeam(teamName, poolID) {
-  if (!teamName || !poolID) {
-    return
-  }
+  const pool = (await prisma.pool.findUnique({
+    where: {
+      id: poolID
+    },
+    include: {
+      teams: true,
+    }
+  }));
 
-  const res = await fetch(`${process.env.APIpath}/api/teams`, {
-    method: "POST",
-    cache: 'no-store',
-    body: JSON.stringify({ name: teamName, poolID: poolID })
-  });
+  const index = (pool) ? pool.teams.length : 0;
+  const team = await prisma.team.create({
+    data: {
+      name: teamName,
+      index: index,
+      pool: {
+        connect: {
+          id: poolID
+        }
+      }
+    }
+  })
 
-  return res;
+  return team;
 }
 
 export async function createMatch(poolID, team1, team2, team3) {
-  if (!poolID || !team1 || !team2 || !team3) {
-    return
+  const pool = (await prisma.pool.findUnique({
+    where: {
+      id: poolID
+    },
+    include: {
+      matches: true,
+    }
+  }));
+  var index = 0;
+  if (pool) {
+    index = pool.matches.length;
   }
-  
 
-  const res = await fetch(`${process.env.APIpath}/api/matches`, {
-    method: "POST",
-    cache: 'no-store',
-    body: JSON.stringify({
-      poolID: poolID,
-      team1ID: team1.id,
-      team2ID: team2.id,
-      team3ID: team3.id
-    })
-  });
 
-  return res;
+  const match = await prisma.match.create({
+    data: {
+      index: index,
+      pool: {
+        connect: {
+          id: poolID
+        }
+      },
+      team1: {
+        connect: {
+          id: team1
+        }
+      },
+      team2: {
+        connect: {
+          id: team2
+        }
+      },
+      workTeam: {
+        connect: {
+          id: team3
+        }
+      },
+    }
+  })
+
+  return match;
 }
 
 export async function createSet(matchID) {
-  if (!matchID) {
-    return
-  }
 
-  const res = await fetch(`${process.env.APIpath}/api/sets/${matchID}`, {
-    method: "POST",
-    cache: 'no-store'
+  const set = await prisma.set.create({
+    data: {
+      match: {
+        connect: {
+          id: matchID
+        }
+      }
+    }
   });
 
-  return res;
+  return set;
 }
 
 export async function generateMatchesForPool(poolID) {
-  const pool = await getPool(poolID);
+  const pool = await (await fetch(`${process.env.APIpath}/api/pools?id=${poolID}`)).json();
+  console.log(pool)
   const teams = pool.teams;
 
   const sets = pool.sets;
@@ -73,37 +108,37 @@ export async function generateMatchesForPool(poolID) {
   // TODO detect amount of teams and assign accordingly
 
   // 1 v 3 w 2
-  const m1 = (await (await createMatch(poolID, teams[0], teams[2], teams[1])).json());
+  const m1 = (await createMatch(poolID, teams[0].id, teams[2].id, teams[1].id));
   for (let i = 0; i < sets; i++) {
     await createSet(m1.id);
   }
 
   // 2 v 4 w 1
-  const m2 = (await (await createMatch(poolID, teams[1], teams[3], teams[0])).json()).id;
+  const m2 = (await createMatch(poolID, teams[1].id, teams[3].id, teams[0].id)).id;
   for (let i = 0; i < sets; i++) {
     await createSet(m2);
   }
 
   // 1 v 4 w 3
-  const m3 = (await (await createMatch(poolID, teams[0], teams[3], teams[2])).json()).id;
+  const m3 = (await createMatch(poolID, teams[0].id, teams[3].id, teams[2].id)).id;
   for (let i = 0; i < sets; i++) {
     await createSet(m3);
   }
 
   // 2 v 3 w 1
-  const m4 = (await (await createMatch(poolID, teams[1], teams[2], teams[0])).json()).id;
+  const m4 = (await createMatch(poolID, teams[1].id, teams[2].id, teams[0].id)).id;
   for (let i = 0; i < sets; i++) {
     await createSet(m4);
   }
 
   // 3 v 4 w 2
-  const m5 = (await (await createMatch(poolID, teams[2], teams[3], teams[1])).json()).id;
+  const m5 = (await createMatch(poolID, teams[2].id, teams[3].id, teams[1].id)).id;
   for (let i = 0; i < sets; i++) {
     await createSet(m5);
   }
 
   // 1 v 2 w 4
-  const m6 = (await (await createMatch(poolID, teams[0], teams[1], teams[3])).json()).id;
+  const m6 = (await createMatch(poolID, teams[0].id, teams[1].id, teams[3].id)).id;
   for (let i = 0; i < sets; i++) {
     await createSet(m6);
   }
