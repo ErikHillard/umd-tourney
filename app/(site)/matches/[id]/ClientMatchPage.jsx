@@ -29,7 +29,10 @@ export default function ClientMatchPage({ matchID }) {
   const [team1Score, setTeam1Score] = useState(0);
   const [team2Score, setTeam2Score] = useState(0);
 
-  function getCurrentSetFromRemote(match) {
+  const getCurrentSetFromRemote = useCallback((match) => {
+    if (!match) {
+      return 0;
+    }
     let curr = 0;
     while (curr < match.sets.length) {
       if (!match.sets[curr].finished) {
@@ -39,7 +42,7 @@ export default function ClientMatchPage({ matchID }) {
     }
 
     return curr;
-  }
+  })
 
   const currentSet = useMemo(() => isLoading ? set : (Math.max(set, getCurrentSetFromRemote(match))), [match, set])
   const notReadyToUpload = useMemo(() => isLoading ? true : (
@@ -121,12 +124,6 @@ export default function ClientMatchPage({ matchID }) {
         Submit Scores
         </Button>
       </div>
-      {/* <button
-        onClick={() => submitScores()}
-        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-full m-6"
-      >
-        
-      </button> */}
     </div>
   );
 }
