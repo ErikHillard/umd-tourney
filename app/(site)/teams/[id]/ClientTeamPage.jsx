@@ -17,13 +17,7 @@ export default function ClientTeamPage({ teamID }) {
       console.log('fetched')
       return data;
     },
-    staleTime: 5*1000,
-    refetchInterval: 15*1000,
   })
-  // const teams = getAllPools();
-  // if(teams) {
-  //   console.log(teams, "pools")
-  // }
 
   const matches = useMemo(() => team?.matches1?.concat(team?.matches2, team?.workMatches).sort(compareMatches), [team]);
 
