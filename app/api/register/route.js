@@ -4,6 +4,7 @@ import prisma from "../../libs/prismadb";
 import { NextResponse } from "next/server";
 
 export async function POST( request ) {
+  return new NextResponse('Internal Error', { status: 500 });
   try {
     const { email, name, password } = await request.json()
 
