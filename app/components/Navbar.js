@@ -20,55 +20,55 @@ export default function Navbar() {
   //   }
   // }, [session?.status], router);
 
-  return (
-    <header>
-      <nav className={`nav bg-white`}>
-        <Link href={"/"}>
+  // return (
+  //   <header>
+  //     <nav className={`nav bg-white`}>
+  //       <Link href={"/"}>
 
-          <h1 className="logo font-bold">UMD Tournament Runner</h1>
+  //         <h1 className="logo font-bold">UMD Tournament Runner</h1>
 
-        </Link>
-        <div
-          onClick={() => setNavActive(!navActive)}
-          className={`nav__menu-bar`}
-        >
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-        <div className={`${navActive ? "active" : ""} nav__menu-list`}>
-          {MENU_LIST.map((menu, idx) => (
-            <div
-              onClick={() => {
-                setNavActive(false);
-              }}
-              key={menu.text}
-            >
-              <NavItem {...menu} />
-            </div>
-          ))}
-          {(session?.status === 'authenticated') ?
-            <div
-              onClick={() => {
-                setNavActive(false);
-              }}
-              key="Logout"
-            >
-              <NavItem text="Logout" href="/logout" />
-            </div> 
-            :
-            <div
-              onClick={() => {
-                setNavActive(false);
-              }}
-              key="Login"
-            >
-              <NavItem text="Login" href="/login" />
-            </div>}
-        </div>
-      </nav>
-    </header>
-  );
+  //       </Link>
+  //       <div
+  //         onClick={() => setNavActive(!navActive)}
+  //         className={`nav__menu-bar`}
+  //       >
+  //         <div></div>
+  //         <div></div>
+  //         <div></div>
+  //       </div>
+  //       <div className={`${navActive ? "active" : ""} nav__menu-list`}>
+  //         {MENU_LIST.map((menu, idx) => (
+  //           <div
+  //             onClick={() => {
+  //               setNavActive(false);
+  //             }}
+  //             key={menu.text}
+  //           >
+  //             <NavItem {...menu} />
+  //           </div>
+  //         ))}
+  //         {(session?.status === 'authenticated') ?
+  //           <div
+  //             onClick={() => {
+  //               setNavActive(false);
+  //             }}
+  //             key="Logout"
+  //           >
+  //             <NavItem text="Logout" href="/logout" />
+  //           </div> 
+  //           :
+  //           <div
+  //             onClick={() => {
+  //               setNavActive(false);
+  //             }}
+  //             key="Login"
+  //           >
+  //             <NavItem text="Login" href="/login" />
+  //           </div>}
+  //       </div>
+  //     </nav>
+  //   </header>
+  // );
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900">
       <div className="max-w-screen-fill flex flex-wrap items-center justify-between mx-auto p-4">

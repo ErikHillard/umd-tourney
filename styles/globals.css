@@ -17,7 +17,7 @@ body,
   box-sizing: border-box;
   font-family: 'Work Sans', sans-serif;
 } */
-a{
+/* a{
   text-decoration: none;
   color: inherit;
 }
@@ -66,10 +66,6 @@ nav{
   position: relative;
   transition: all 0.2s;
 }
-/* 
-.nav__link:hover{
- font-weight: bold;
-} */
 
 .center{
   min-height: 600px;
@@ -103,4 +99,4 @@ nav{
   .nav__link:hover:before{
    width: 100%;
   }
-}
+} */
