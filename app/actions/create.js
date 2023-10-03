@@ -1,7 +1,3 @@
-import axios from "axios";
-
-const REVALIDATION_TIME = process.env.REVALIDATION_TIME;
-
 export async function createPool(poolName) {
   const pool = await prisma.pool.create({
     data: {
