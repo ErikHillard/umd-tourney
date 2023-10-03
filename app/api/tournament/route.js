@@ -21,7 +21,7 @@ export async function POST(request) {
     pool4 = await createPool("Pool 4");
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
-    return new NextResponse(e, { status: 500 });
+    return new NextResponse("Pools Post Error", { status: 500 });
   }
   try {
     await createTeam("Bob 1", pool1.id);

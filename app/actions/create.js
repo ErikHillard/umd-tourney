@@ -1,3 +1,5 @@
+import prisma from "../libs/prismadb";
+
 export async function createPool(poolName) {
   const pool = await prisma.pool.create({
     data: {
