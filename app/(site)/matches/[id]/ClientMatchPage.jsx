@@ -5,10 +5,11 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import getMatch from "../../../get/client/getMatch";
 import LoadingSpinner from "../../../components/LoadingSpinner";
-import Counter from "../../../components/Counter";
 import Button from "../../../components/Button";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+
+// TODO Have this page redirect before it switches to the next set
 
 export default function ClientMatchPage({ matchID }) {
   const queryClient = useQueryClient();
@@ -21,15 +22,10 @@ export default function ClientMatchPage({ matchID }) {
     },
   })
 
-  if (match) {
-    console.log(match)
-  }
-
   const router = useRouter();
   const [set, setSet] = useState(1);
   const [team1Score, setTeam1Score] = useState(0);
   const [team2Score, setTeam2Score] = useState(20);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getCurrentSetFromRemote = useCallback((match) => {
     if (!match) {
@@ -62,7 +58,6 @@ export default function ClientMatchPage({ matchID }) {
   }
 
   const onSubmit = () => {
-    setIsSubmitting(true);
     axios.put(`/api/sets?id=${match.sets[currentSet - 1].id}`,
      { 
       matchID: matchID,
@@ -70,15 +65,16 @@ export default function ClientMatchPage({ matchID }) {
       team2Score: team2Score,
       team1: match.team1,
       team2: match.team2,
-      finalSet: currentSet === match.sets.length
+      finalSet: currentSet === match.sets.length,
+      poolID: match.poolID,
+      matchesCompleted: match.pool.matchesCompleted
 
     })
       .then(() => setSet(set + 1))
       .then(() => setTeam1Score(0))
       .then(() => setTeam2Score(20))
-      .then(() => queryClient.invalidateQueries({ queryKey: [`${matchID}`] }))
       .catch(() => toast.error('Could not update the set'))
-      .finally(() => setIsSubmitting(false));
+      .finally(() => queryClient.invalidateQueries({ queryKey: [`${matchID}`] }));
   }
 
   const incrementNumber = (teamNumber) => {
@@ -98,15 +94,19 @@ export default function ClientMatchPage({ matchID }) {
     }
   }
 
-  if (!isLoading && currentSet > match.sets.length) {
-    //TODO change this so that when we fetch the match it just immeditately returns not adding anything on the stack as well as a toast would be great
-    router.replace(`/pools/${match.poolID}`)
-  }
+  useEffect(() => {
+    if (!isLoading && currentSet > match.sets.length) {
+      //TODO change this so that when we fetch the match it just immeditately returns not adding anything on the stack as well as a toast would be great
+      router.replace(`/pools/${match.poolID}`)
+    }
+  }, [isLoading, currentSet, match])
 
-  return (isInitialLoading || isSubmitting) ? <LoadingSpinner /> : (
+  
+
+  return (isLoading) ? <LoadingSpinner /> : (
     <div className="flex flex-grow flex-col justify-between items-center">
       <div className="m-6">
-        <h1 className="text-5xl font-semibold">Set: {currentSet}</h1>
+        <h1 className="text-5xl font-semibold">Set: {Math.min(currentSet, match.sets.length)}</h1>
       </div>
       <div className="flex flex-row w-full">
         <div className="flex flex-col items-center flex-grow">

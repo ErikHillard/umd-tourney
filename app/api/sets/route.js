@@ -7,14 +7,37 @@ export async function PUT(request, { params }) {
       return new NextResponse('Need Body', { status: 400 })
     }
     const id = request.nextUrl.searchParams.get("id");
-    const { matchID, finalSet, team1Score, team2Score, team1, team2 } = await request.json();
+    const { matchID, poolID, matchesCompleted, finalSet, team1Score, team2Score, team1, team2 } = await request.json();
 
     //TODO maybe make this so that user name is required?
 
-    if (!id || isNaN(team1Score) || isNaN(team2Score) || !matchID || !team1 || !team2) {
+    if (!id || isNaN(team1Score) || isNaN(team2Score) || !matchID || !team1 || !team2 || !poolID || isNaN(matchesCompleted)) {
       console.log('BAD_REQUEST');
       return new NextResponse('Bad Search Parameters', { status: 400 })
     }
+
+    const match = await prisma.match.findUnique({
+      where: {
+        id: matchID
+      }
+    })
+
+    if (match.finished) {
+      return new NextResponse("Match Already Finished", { status: 400})
+    }
+
+    const set = await prisma.set.findUnique({
+      where: {
+        id: id
+      }
+    })
+
+    if (set.finished) {
+      return new NextResponse("Set Already Finished", { status: 400})
+    }
+
+    
+
     const pointDiff = team1Score - team2Score;
 
     const updateSet = await prisma.set.update({
@@ -34,6 +57,14 @@ export async function PUT(request, { params }) {
         },
         data: {
           finished: true
+        }
+      })
+      const updatePool = await prisma.pool.update({
+        where: {
+          id: poolID
+        },
+        data: {
+          matchesCompleted: matchesCompleted + 1
         }
       })
     }

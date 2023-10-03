@@ -1,8 +1,11 @@
 'use client'
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import Button from "./Button";
 
 export default function MatchDisplay({ match }) {
+  const router = useRouter();
   // TODO disable on set 2 being finished
   return (
     <>
@@ -51,11 +54,11 @@ export default function MatchDisplay({ match }) {
       </div>
 
       {/* Make this into a button that is disabled on match.finished? */}
-      <Link href={`/matches/${match.id}`}>
-        <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+      <div className="flex items-center justify-center my-3">
+        <Button onClick={() => (router.push(`/matches/${match.id}`))} disabled={match.finished} fullWidth>
           Input Scores
-        </div>
-      </Link>
+        </Button>
+      </div>
 
 
     </>
