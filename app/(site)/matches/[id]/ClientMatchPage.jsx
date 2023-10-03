@@ -9,7 +9,7 @@ import Button from "../../../components/Button";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 
-// TODO Have this page redirect before it switches to the next set
+// TODO Have this page redirect before it switches to the next set might be able to do this with a NextResponse with redirect
 
 export default function ClientMatchPage({ matchID }) {
   const queryClient = useQueryClient();
