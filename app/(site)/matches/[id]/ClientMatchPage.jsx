@@ -8,6 +8,7 @@ import LoadingSpinner from "../../../components/LoadingSpinner";
 import Counter from "../../../components/Counter";
 import Button from "../../../components/Button";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 
 export default function ClientMatchPage({ matchID }) {
   const queryClient = useQueryClient();
@@ -27,7 +28,8 @@ export default function ClientMatchPage({ matchID }) {
   const router = useRouter();
   const [set, setSet] = useState(1);
   const [team1Score, setTeam1Score] = useState(0);
-  const [team2Score, setTeam2Score] = useState(0);
+  const [team2Score, setTeam2Score] = useState(20);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getCurrentSetFromRemote = useCallback((match) => {
     if (!match) {
@@ -46,8 +48,8 @@ export default function ClientMatchPage({ matchID }) {
 
   const currentSet = useMemo(() => isLoading ? set : (Math.max(set, getCurrentSetFromRemote(match))), [match, set])
   const notReadyToUpload = useMemo(() => isLoading ? true : (
-    !(team1Score >= 21 && (Math.abs(team1Score - team2Score) > 1)) && !(team2Score >= 21 && (Math.abs(team1Score - team2Score) > 1))
-    ), [team1Score, team2Score])
+    !(team1Score >= 21 && (Math.abs(team1Score - team2Score) > 0)) && !(team2Score >= 21 && (Math.abs(team1Score - team2Score) > 0))
+  ), [team1Score, team2Score])
 
   useEffect(() => {
     if (!notReadyToUpload) {
@@ -60,7 +62,23 @@ export default function ClientMatchPage({ matchID }) {
   }
 
   const onSubmit = () => {
-    queryClient.invalidateQueries({ queryKey: [`${matchID}`] })
+    setIsSubmitting(true);
+    axios.put(`/api/sets?id=${match.sets[currentSet - 1].id}`,
+     { 
+      matchID: matchID,
+      team1Score: team1Score,
+      team2Score: team2Score,
+      team1: match.team1,
+      team2: match.team2,
+      finalSet: currentSet === match.sets.length
+
+    })
+      .then(() => setSet(set + 1))
+      .then(() => setTeam1Score(0))
+      .then(() => setTeam2Score(20))
+      .then(() => queryClient.invalidateQueries({ queryKey: [`${matchID}`] }))
+      .catch(() => toast.error('Could not update the set'))
+      .finally(() => setIsSubmitting(false));
   }
 
   const incrementNumber = (teamNumber) => {
@@ -69,7 +87,7 @@ export default function ClientMatchPage({ matchID }) {
     } else {
       setTeam2Score(team2Score + 1);
     }
-    
+
   }
 
   const decrementNumber = (teamNumber) => {
@@ -80,7 +98,12 @@ export default function ClientMatchPage({ matchID }) {
     }
   }
 
-  return isLoading ? <LoadingSpinner /> : (
+  if (!isLoading && currentSet > match.sets.length) {
+    //TODO change this so that when we fetch the match it just immeditately returns not adding anything on the stack as well as a toast would be great
+    router.replace(`/pools/${match.poolID}`)
+  }
+
+  return (isInitialLoading || isSubmitting) ? <LoadingSpinner /> : (
     <div className="flex flex-grow flex-col justify-between items-center">
       <div className="m-6">
         <h1 className="text-5xl font-semibold">Set: {currentSet}</h1>
@@ -121,7 +144,7 @@ export default function ClientMatchPage({ matchID }) {
       </div>
       <div className="m-6">
         <Button onClick={onSubmit} type="button" disabled={notReadyToUpload}>
-        Submit Scores
+          Submit Scores
         </Button>
       </div>
     </div>
