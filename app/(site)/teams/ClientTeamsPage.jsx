@@ -16,7 +16,7 @@ export default function ClientTeamsPage({  }) {
     },
   })
 
-  const teams = useMemo(() => (isLoading) ? null : data.toSorted(compareTeamsForOverallTeams));
+  const teams = useMemo(() => (isLoading) ? null : data.toSorted(compareTeamsForOverallTeams), [data]);
 
   if (isError) {
     return (<>Something went wrong</>)
