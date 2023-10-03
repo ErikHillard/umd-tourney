@@ -99,7 +99,6 @@ export async function createSet(matchID) {
 
 export async function generateMatchesForPool(poolID) {
   const pool = await (await fetch(`${process.env.APIpath}/api/pools?id=${poolID}`)).json();
-  console.log(pool)
   const teams = pool.teams;
 
   const sets = pool.sets;

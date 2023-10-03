@@ -3,9 +3,11 @@ import getAllTeams from "../../get/client/getAllTeams";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { useMemo } from "react";
+import { compareTeamsForOverallTeams } from "../../utils/compare";
 
 export default function ClientTeamsPage({  }) {
-  const { data: teams, isError, isInitialLoading, isLoading } = useQuery({
+  const { data: data, isError, isInitialLoading, isLoading } = useQuery({
     queryKey: [`teams`],
     queryFn: async () => {
       const { data } = await getAllTeams();
@@ -14,11 +16,13 @@ export default function ClientTeamsPage({  }) {
     },
   })
 
+  const teams = useMemo(() => (isLoading) ? null : data.toSorted(compareTeamsForOverallTeams));
+
   if (isError) {
     return (<>Something went wrong</>)
   }
 
-  return isInitialLoading ? <LoadingSpinner /> : (
+  return isLoading ? <LoadingSpinner /> : (
     <div className="flex flex-col">
       <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">

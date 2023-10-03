@@ -1,87 +1,86 @@
 import { NextResponse } from "next/server"
 import prisma from "../../libs/prismadb"
-import getCurrentUser from "../../get/server/getCurrentUser";
 
-
-export async function GET(request, { params }) {
+export async function PUT(request, { params }) {
   try {
+    if (request.headers.get("Content-Type") !== 'application/json') {
+      return new NextResponse('Need Body', { status: 400 })
+    }
     const id = request.nextUrl.searchParams.get("id");
+    const { matchID, finalSet, team1Score, team2Score, team1, team2 } = await request.json();
 
-    if (!id) {
-      const sets = await prisma.set.findMany({
-        include: {
-          match: {
-            include: {
-              pool: true,
-              team1: true,
-              team2: true
-            }
-          }
-        }
-      })
-      return NextResponse.json(sets)
-    } else {
-      const set = await prisma.set.findUnique({
-        where: {
-          id: params.id
-        },
-        include: {
-          match: {
-            include: {
-              team1: true,
-              team2: true
-            }
-          }
-        }
-      })
+    //TODO maybe make this so that user name is required?
 
-      if (!team) {
-        return new NextResponse("Bad SetID", { status: 400 });
-      }
-
-      return NextResponse.json(set)
+    if (!id || isNaN(team1Score) || isNaN(team2Score) || !matchID || !team1 || !team2) {
+      console.log('BAD_REQUEST');
+      return new NextResponse('Bad Search Parameters', { status: 400 })
     }
-  } catch (e) {
-    console.log(e, 'SERVER_ERROR');
-    return new NextResponse('Server Error GET Set', { status: 500 })
-  }
-}
+    const pointDiff = team1Score - team2Score;
 
-export async function POST(request) {
-  let matchID = ""
-  try {
-    const body = await request.json()
-    matchID = body.matchID;
-  } catch (e) {
-    return new NextResponse('Need Body', { status: 400 })
-  }
-
-  if (!matchID) {
-    return new NextResponse("Bad Match ID", { status: 400 });
-  }
-
-  try {
-    const currentUser = await getCurrentUser();
-
-    if (!currentUser?.id || !currentUser?.email || !currentUser?.role === 'admin') {
-      return new NextResponse("Unauthorizied", { status: 401 })
-    }
-    
-    const set = await prisma.set.create({
+    const updateSet = await prisma.set.update({
+      where: {
+        id: id
+      },
       data: {
-        match: {
-          connect: {
-            id: params.id
-          }
-        }
+        team1Score: team1Score,
+        team2Score: team2Score,
+        finished: true
       }
-    });
+    })
+    if (finalSet) {
+      const updateMatch = await prisma.match.update({
+        where: {
+          id: matchID
+        },
+        data: {
+          finished: true
+        }
+      })
+    }
+    if (pointDiff > 0) {
+      const updateTeam1 = await prisma.team.update({
+        where: {
+          id: team1.id
+        },
+        data: {
+          pointDiff: team1.pointDiff + pointDiff,
+          wins: team1.wins + 1
+        }
+      })
 
-    // TODO surround in try catch in case it cannot connect to a match
+      const updateTeam2 = await prisma.team.update({
+        where: {
+          id: team2.id
+        },
+        data: {
+          pointDiff: team2.pointDiff - pointDiff,
+          losses: team2.losses + 1
+        }
+      })
+    } else {
+      const updateTeam1 = await prisma.team.update({
+        where: {
+          id: team1.id
+        },
+        data: {
+          pointDiff: team1.pointDiff + pointDiff,
+          losses: team1.losses + 1
+        }
+      })
 
-    return NextResponse.json(set);
+      const updateTeam2 = await prisma.team.update({
+        where: {
+          id: team2.id
+        },
+        data: {
+          pointDiff: team2.pointDiff - pointDiff,
+          wins: team2.wins + 1
+        }
+      })
+    }
+    return new NextResponse();
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
-    return new NextResponse('Server Error POST Set', { status: 500 })
+    return new NextResponse('Server Error PUT Set', { status: 500 })
   }
 }
