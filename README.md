@@ -1,3 +1,9 @@
+## Use
+
+Project is **NOT_IN_USE**
+This will be regularly updated.
+If it is in use please do not update scores randomly, as well the admin account will be disabled. Thanks!
+
 ## Description
 
 This is a project I started on my own to help the UMD Volleyball Club run tournaments faster and more efficiently. 
