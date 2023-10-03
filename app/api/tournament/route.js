@@ -30,7 +30,7 @@ export async function POST(request) {
     await createTeam("Bob 4", pool1.id);
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
-    return new NextResponse("Pools Post Error", { status: 501 });
+    return new NextResponse("Teams Bob Post Error", { status: 501 });
   }
   try {
     await (createTeam("Jim 1", pool2.id));
@@ -39,7 +39,7 @@ export async function POST(request) {
     await (createTeam("Jim 4", pool2.id));
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
-    return new NextResponse("Pools Post Error", { status: 502 });
+    return new NextResponse("Teams Jim Post Error", { status: 502 });
   }
   try {
     await (createTeam("Syn 1", pool3.id));
@@ -48,7 +48,7 @@ export async function POST(request) {
     await (createTeam("Syn 4", pool3.id));
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
-    return new NextResponse("Pools Post Error", { status: 503 });
+    return new NextResponse("Teams Syn Post Error", { status: 503 });
   }
   try {
     await (createTeam("Erik 1", pool4.id));
@@ -57,7 +57,7 @@ export async function POST(request) {
     await (createTeam("Erik 4", pool4.id));
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
-    return new NextResponse("Pools Post Error", { status: 504 });
+    return new NextResponse("Teams Erik Post Error", { status: 504 });
   }
   try {
     await (generateMatchesForPool(pool1.id));
@@ -66,7 +66,7 @@ export async function POST(request) {
     await (generateMatchesForPool(pool4.id));
   } catch (e) {
     console.log(e, 'SERVER_ERROR');
-    return new NextResponse("Pools Post Error", { status: 505 });
+    return new NextResponse("Matches Post Error", { status: 505 });
   }
   return NextResponse.json({})
 }
