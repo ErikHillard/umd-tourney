@@ -18,8 +18,8 @@ export default function ClientPoolPage({ poolID }) {
     },
   })
   const matches = useMemo(() => pool?.matches?.sort(compareMatches), [pool])
-  const remainingMatches = useMemo(() => matches?.slice(pool.matchesCompleted), [matches])
-  const finishedMatches = useMemo(() => matches?.slice(0, pool.matchesCompleted), [matches])
+  const remainingMatches = useMemo(() => matches?.slice(pool.matchesCompleted), [matches, pool?.matches])
+  const finishedMatches = useMemo(() => matches?.slice(0, pool.matchesCompleted), [matches, pool?.matches])
   if (isError) {
     return (<>Something went wrong</>)
   }

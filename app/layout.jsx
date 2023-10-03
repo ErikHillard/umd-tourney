@@ -14,7 +14,7 @@ export default async function RootLayout({ children }) {
           <AuthContext>
             <ToasterContext />
             <div className="flex flex-col flex-grow h-screen">
-              {/* <Navbar /> */}
+              <Navbar />
               {children}
             </div>
           </AuthContext>

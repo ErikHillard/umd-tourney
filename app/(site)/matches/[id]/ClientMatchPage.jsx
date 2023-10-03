@@ -40,12 +40,12 @@ export default function ClientMatchPage({ matchID }) {
     }
 
     return curr;
-  })
+  }, [match])
 
-  const currentSet = useMemo(() => isLoading ? set : (Math.max(set, getCurrentSetFromRemote(match))), [match, set])
+  const currentSet = useMemo(() => isLoading ? set : (Math.max(set, getCurrentSetFromRemote(match))), [match, set, getCurrentSetFromRemote(match), isLoading])
   const notReadyToUpload = useMemo(() => isLoading ? true : (
     !(team1Score >= 21 && (Math.abs(team1Score - team2Score) > 0)) && !(team2Score >= 21 && (Math.abs(team1Score - team2Score) > 0))
-  ), [team1Score, team2Score])
+  ), [team1Score, team2Score, isLoading])
 
   useEffect(() => {
     if (!notReadyToUpload) {
@@ -99,7 +99,7 @@ export default function ClientMatchPage({ matchID }) {
       //TODO change this so that when we fetch the match it just immeditately returns not adding anything on the stack as well as a toast would be great
       router.replace(`/pools/${match.poolID}`)
     }
-  }, [isLoading, currentSet, match])
+  }, [isLoading, currentSet, match, router])
 
   
 

@@ -1,5 +1,3 @@
-import { NextResponse } from "next/server";
-
 import { withAuth } from "next-auth/middleware"
 
 export default withAuth({
@@ -12,5 +10,5 @@ export default withAuth({
 })
 
 export const config = {
-  matcher: '/admin/:path*',
+  matcher: ['/admin/:path*', '/logout/:path*'],
 }
