@@ -21,7 +21,8 @@ export default function ClientPoolPage({ poolID }) {
   const remainingMatches = useMemo(() => matches?.slice(pool.matchesCompleted), [matches, pool?.matches])
   const finishedMatches = useMemo(() => matches?.slice(0, pool.matchesCompleted), [matches, pool?.matches])
   if (isError) {
-    return (<>Something went wrong</>)
+    toast.error("We couldn't find your requested pool sorry!")
+    notFound()
   }
 
   return isInitialLoading ? <LoadingSpinner /> : (

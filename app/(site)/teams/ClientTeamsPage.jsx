@@ -19,7 +19,8 @@ export default function ClientTeamsPage({  }) {
   const teams = useMemo(() => (isLoading) ? null : data.toSorted(compareTeamsForOverallTeams), [data, isLoading]);
 
   if (isError) {
-    return (<>Something went wrong</>)
+    toast.error("We couldn't pull the teams right now sorry!")
+    notFound()
   }
 
   return isLoading ? <LoadingSpinner /> : (

@@ -54,6 +54,7 @@ export default function ClientMatchPage({ matchID }) {
   }, [notReadyToUpload])
 
   if (isError) {
+    toast.error("We couldn't find your requested match sorry!")
     notFound()
   }
 
