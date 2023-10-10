@@ -72,7 +72,7 @@ export default function AuthForm({ }) {
           toast.success('Logged in!');
         }
       })
-      .then(queryClient.invalidateQueries(['user']))
+      .then(() => queryClient.invalidateQueries(['user']))
       .finally(() => setIsLoading(false));
     }
   }
@@ -90,7 +90,7 @@ export default function AuthForm({ }) {
         toast.success('Logged in!');
       }
     })
-    .then(queryClient.invalidateQueries(['user']))
+    .then(() => queryClient.invalidateQueries(['user']))
     .finally(() => setIsLoading(false));
   }
 
