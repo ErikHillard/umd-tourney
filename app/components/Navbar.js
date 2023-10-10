@@ -44,7 +44,7 @@ export default function Navbar() {
           <div></div>
         </div>
         <div className={`${navActive ? "active" : ""} nav__menu-list`}>
-          {data && data?.isAdmin && <NavItem text="Admin" href="/admin" />}
+          {/* {data && data?.isAdmin && <NavItem text="Admin" href="/admin" />} */}
           {MENU_LIST.map((menu, idx) => (
             <div
               onClick={() => {
