@@ -20,7 +20,7 @@ export default function Navbar() {
       const { data } = await axios.get("/api/isAdmin");
       return data;
     },
-    staleTime: 1000 * 60  * 5 // min TODO later change this so that it will check every 5
+    staleTime: 1000 // min TODO later change this so that it will check every 5
   })
 
   return (
