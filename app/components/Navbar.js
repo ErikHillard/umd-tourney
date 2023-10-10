@@ -1,9 +1,9 @@
 'use client'
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import NavItem from "./NavItem";
 
 const MENU_LIST = [
@@ -23,10 +23,6 @@ export default function Navbar() {
     staleTime: 1000 // min TODO later change this so that it will check every 5
   })
 
-  if (data) {
-    console.log(data)
-  }
-
   return (
     <header>
       <nav className={`nav bg-white`}>
@@ -44,7 +40,7 @@ export default function Navbar() {
           <div></div>
         </div>
         <div className={`${navActive ? "active" : ""} nav__menu-list`}>
-          {/* {data && data?.isAdmin && <NavItem text="Admin" href="/admin" />} */}
+          {data && data?.isAdmin && <NavItem text="Admin" href="/admin" />}
           {MENU_LIST.map((menu, idx) => (
             <div
               onClick={() => {
