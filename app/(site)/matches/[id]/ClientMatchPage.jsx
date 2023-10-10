@@ -42,7 +42,7 @@ export default function ClientMatchPage({ matchID }) {
     return curr;
   }, [match])
 
-  const currentSet = useMemo(() => isLoading ? set : (Math.max(set, getCurrentSetFromRemote(match))), [match, set, getCurrentSetFromRemote(match), isLoading])
+  const currentSet = useMemo(() => isLoading ? set : (Math.max(set, getCurrentSetFromRemote(match))), [match, set, getCurrentSetFromRemote, isLoading])
   const notReadyToUpload = useMemo(() => isLoading ? true : (
     !(team1Score >= 21 && (Math.abs(team1Score - team2Score) > 0)) && !(team2Score >= 21 && (Math.abs(team1Score - team2Score) > 0))
   ), [team1Score, team2Score, isLoading])

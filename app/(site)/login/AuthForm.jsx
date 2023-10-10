@@ -23,7 +23,7 @@ export default function AuthForm({ }) {
     if (session?.status === 'authenticated') {
       router.push('/')
     }
-  }, [session?.status], router);
+  }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
