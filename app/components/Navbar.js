@@ -23,6 +23,10 @@ export default function Navbar() {
     staleTime: 1000 // min TODO later change this so that it will check every 5
   })
 
+  if (data) {
+    console.log(data)
+  }
+
   return (
     <header>
       <nav className={`nav bg-white`}>
