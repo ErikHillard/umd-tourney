@@ -18,10 +18,11 @@ export default function ClientPoolPage({ poolID }) {
     },
   })
   const matches = useMemo(() => pool?.matches?.sort(compareMatches), [pool])
-  const remainingMatches = useMemo(() => matches?.slice(pool.matchesCompleted), [matches])
-  const finishedMatches = useMemo(() => matches?.slice(0, pool.matchesCompleted), [matches])
+  const remainingMatches = useMemo(() => matches?.slice(pool.matchesCompleted), [matches, pool?.matchesCompleted])
+  const finishedMatches = useMemo(() => matches?.slice(0, pool.matchesCompleted), [matches, pool?.matchesCompleted])
   if (isError) {
-    return (<>Something went wrong</>)
+    toast.error("We couldn't find your requested pool sorry!")
+    notFound()
   }
 
   return isInitialLoading ? <LoadingSpinner /> : (

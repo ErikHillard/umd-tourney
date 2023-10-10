@@ -22,7 +22,8 @@ export default function ClientTeamPage({ teamID }) {
   const matches = useMemo(() => team?.matches1?.concat(team?.matches2, team?.workMatches).sort(compareMatches), [team]);
 
   if (isError) {
-    return (<>Something went wrong</>)
+    toast.error("We couldn't find your requested team sorry!")
+    notFound()
   }
 
   return isInitialLoading ? <LoadingSpinner /> : (

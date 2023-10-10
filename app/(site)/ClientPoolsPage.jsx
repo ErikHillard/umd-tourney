@@ -15,8 +15,11 @@ export default function ClientPoolsPage({  }) {
       return data;
     },
   })
+
+  // TODO make this so that all isErrors will run the same things
   if (isError) {
-    return (<>Something went wrong</>)
+    toast.error("We couldn't pull the pools right now sorry!")
+    notFound()
   }
 
   return isInitialLoading ? <LoadingSpinner /> : (

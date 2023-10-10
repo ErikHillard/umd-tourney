@@ -10,10 +10,12 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { signIn, signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function AuthForm({ }) {
   const session = useSession();
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [variant, setVariant] = useState('LOGIN');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,7 +23,7 @@ export default function AuthForm({ }) {
     if (session?.status === 'authenticated') {
       router.push('/')
     }
-  }, [session?.status], router);
+  }, [session?.status, router]);
 
   const toggleVariant = useCallback(() => {
     if (variant === 'LOGIN') {
@@ -51,6 +53,7 @@ export default function AuthForm({ }) {
     if (variant === 'REGISTER') {
       axios.post('/api/register', data)
       .then(() => signIn('credentials', data))
+      .then(queryClient.invalidateQueries(['user']))
       .catch(() => toast.error('Something went wrong!'))
       .finally(() => setIsLoading(false));
     }
@@ -69,6 +72,7 @@ export default function AuthForm({ }) {
           toast.success('Logged in!');
         }
       })
+      .then(queryClient.invalidateQueries(['user']))
       .finally(() => setIsLoading(false));
     }
   }
@@ -86,6 +90,7 @@ export default function AuthForm({ }) {
         toast.success('Logged in!');
       }
     })
+    .then(queryClient.invalidateQueries(['user']))
     .finally(() => setIsLoading(false));
   }
 
