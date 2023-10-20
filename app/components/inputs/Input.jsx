@@ -6,7 +6,7 @@ import {
   UseFormRegister
 } from 'react-hook-form';
 
-export default function Input( { label, id, type = "text", required, register, errors, disabled } ) {
+export default function Input( { label, id, type = "text", required, register, errors, disabled, width = "", flex = ""} ) {
   if (type === 'checkbox') {
     return (
       <div>
@@ -33,7 +33,7 @@ export default function Input( { label, id, type = "text", required, register, e
     )
   }
   return ( 
-    <div>
+    <div className={width}>
       <label 
         htmlFor={id} 
         className="
@@ -73,7 +73,8 @@ export default function Input( { label, id, type = "text", required, register, e
           sm:text-sm 
           sm:leading-6`,
           errors[id] && 'focus:ring-rose-500',
-          disabled && 'opacity-50 cursor-default'
+          disabled && 'opacity-50 cursor-default',
+          
         )}
       />
     </div>
