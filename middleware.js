@@ -1,14 +1,17 @@
-import { withAuth } from "next-auth/middleware"
+import { withAuth } from "next-auth/middleware";
 
 export default withAuth({
   pages: {
     signIn: "/login",
-  }, 
+  },
   callbacks: {
-    authorized: ({ token }) => token?.role === "admin",
-  }
-})
+    authorized: ({ token }) => {
+      console.log(token, "Hit the middlewear");
+      return token?.role === "admin";
+    },
+  },
+});
 
 export const config = {
-  matcher: ['/admin/:path*', '/logout/:path*'],
-}
+  matcher: ["/admin/:path*", "/logout/:path*"],
+};
