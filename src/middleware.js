@@ -6,7 +6,6 @@ export default withAuth({
   },
   callbacks: {
     authorized: ({ token }) => {
-      console.log(token, "Hit the middlewear");
       return token?.role === "admin";
     },
   },
