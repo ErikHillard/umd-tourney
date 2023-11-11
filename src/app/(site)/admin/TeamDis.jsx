@@ -1,24 +1,29 @@
 import clsx from "clsx";
-import React, { useImperativeHandle, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Button from "@/components/Button";
 import Input from "@/components/inputs/Input";
 
-const TeamDis = React.forwardRef(({
+export default function TeamDis ({
   team,
   deletingIDs,
   poolDeleting,
   addChangingID,
   addDeletingID,
   removeDeletingID,
-}, ref) => {
+  reset
+}) {
   const [name, setName] = useState(team.name);
 
   const deleting = useMemo(
     () => poolDeleting || team.id in deletingIDs
-    , [poolDeleting, deletingIDs]);
+    , [poolDeleting, deletingIDs, team.id]);
+
+  useEffect(() => {
+    setName(team.name);
+  }, [reset])
 
   const handleNameChange = (event) => {
-    addChangingID(team.id, ["team", event.target.value]);
+    addChangingID(team.id, ["team", team.id, event.target.value]);
     setName(event.target.value)
   };
 
@@ -29,15 +34,6 @@ const TeamDis = React.forwardRef(({
     addDeletingID(team.id, 'team');
   };
 
-  const reset = () => {
-    setName(team.name);
-  }
-
-  useImperativeHandle(ref, () => ({
-    reset,
-  }))
-  
-
   return (
     <div className={clsx(
       "m-3 border rounded p-3 shadow-md flex flex-row justify-between items-center",
@@ -45,7 +41,7 @@ const TeamDis = React.forwardRef(({
       deleting && "bg-red-300"
     )}>
       <Input
-        id="name"
+        id={team.name}
         label="Team Name:"
         type="text"
         value={name}
@@ -62,6 +58,4 @@ const TeamDis = React.forwardRef(({
       )}
     </div>
   );
-});
-
-export default TeamDis;
+}

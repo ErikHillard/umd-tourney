@@ -2,10 +2,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import MatchDisplay from "../../../components/MatchDisplay";
-import getTeam from "../../../../get/client/getTeam";
-import { compareMatches } from "../../../utils/compare";
-import LoadingSpinner from "../../../components/LoadingSpinner";
+import MatchDisplay from "@/components/MatchDisplay";
+import getTeam from "@/get/client/getTeam";
+import LoadingSpinner from "@/components/LoadingSpinner";
+import { compareMatches } from "@/utils/compare";
 
 // This will list all teams and their current standing
 

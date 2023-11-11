@@ -9,22 +9,40 @@ import Input from "@/components/inputs/Input";
 import MatchDis from "./MatchDis";
 import TeamDis from "./TeamDis";
 
-const PoolDis = ({ pool }) => {
+export default function PoolDis ({ pool }) {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const [sets, setSets] = useState(pool.sets);
   const [points, setPoints] = useState(pool.pointsPerSet);
   const [deletingIDs, setDeletingIDs] = useState({});
-  const [changingIDs, setChangingIDS] = useState({});
+  const [changingIDs, setChangingIDs] = useState({});
+  const [reset, setReset] = useState(false);
+  const [changes, setChanges] = useState(false);
 
-  const refs = [];
+  useEffect(() => {
+    console.log(changingIDs);
+  }, [changingIDs])
+
+  useEffect(() => {
+    setReset(false);
+  }, [reset]);
+  
+  useEffect(() => {
+    if (!changes) {
+      setIsLoading(false);
+    }
+    setChanges(false);
+  }, [changes])
 
   const deleting = useMemo(
     () => pool.id in deletingIDs,
     [deletingIDs, pool.id]
   );
 
-  const applyChanges = () => {};
+  const applyChanges = () => {
+    setChanges(true);
+    setIsLoading(true);
+  };
 
   const addDeletingID = (id, info) => {
     setDeletingIDs({
@@ -40,7 +58,7 @@ const PoolDis = ({ pool }) => {
   };
 
   const addChangingID = (id, info) => {
-    setChangingIDS({
+    setChangingIDs({
       ...changingIDs,
       [id]: info,
     });
@@ -53,7 +71,7 @@ const PoolDis = ({ pool }) => {
   };
 
   const handleDeleteID = () => {
-    addDeletingID(pool.id, "pool");
+    addDeletingID(pool.id, ["pool"]);
   };
 
   const handleRemoveDeleteID = () => {
@@ -61,24 +79,25 @@ const PoolDis = ({ pool }) => {
   };
 
   const handleSetsChange = (event) => {
-    addChangingID(pool.id, ["pool", event.target.value, points]);
+    addChangingID(pool.id, ["pool", "sets", event.target.value]);
     setSets(event.target.value);
   };
 
   const handlePointsChange = (event) => {
-    addChangingID(pool.id, ["pool", sets, event.target.value]);
+    addChangingID(pool.id, ["pool", "points", event.target.value]);
     setPoints(event.target.value);
   };
 
   const resetValues = () => {
-    refs.forEach((ref) => {
-      ref.current.reset();
-    });
-    setChangingIDS({});
+    setChangingIDs({});
     setDeletingIDs([]);
     setPoints(pool.pointsPerSet);
     setSets(pool.sets);
+    setReset(true);
   };
+
+  const generateMatches = () => {
+  }
 
   return (
     <div
@@ -102,7 +121,7 @@ const PoolDis = ({ pool }) => {
           <div className="flex flex-col items-center">
             <div className="flex flex-row">
               <Input
-                id="sets"
+                id={`sets${pool.id}`}
                 label="Sets"
                 type="text"
                 disabled={isLoading}
@@ -111,7 +130,7 @@ const PoolDis = ({ pool }) => {
                 onChange={handleSetsChange}
               />
               <Input
-                id="points"
+                id={`points${pool.id}`}
                 label="Points"
                 type="text"
                 disabled={isLoading}
@@ -125,11 +144,11 @@ const PoolDis = ({ pool }) => {
         <div>
           {/* Delete */}
           {deleting ? (
-            <Button type="button" onClick={handleRemoveDeleteID}>
+            <Button type="button" disabled={isLoading} onClick={handleRemoveDeleteID}>
               Cancel Delete
             </Button>
           ) : (
-            <Button type="button" danger={true} onClick={handleDeleteID}>
+            <Button type="button" disabled={isLoading} danger={true} onClick={handleDeleteID}>
               Delete Pool
             </Button>
           )}
@@ -138,8 +157,6 @@ const PoolDis = ({ pool }) => {
       <div>
         {/* Teams */}
         {pool.teams.map((team) => {
-          const ref = useRef();
-          refs.push(ref);
           return (
             <TeamDis
               key={team.id}
@@ -149,7 +166,8 @@ const PoolDis = ({ pool }) => {
               addChangingID={addChangingID}
               addDeletingID={addDeletingID}
               removeDeletingID={removeDeletingID}
-              ref={ref}
+              reset={reset}
+              isLoading={isLoading}
             />
           );
         })}
@@ -157,8 +175,6 @@ const PoolDis = ({ pool }) => {
       <div>
         {/* Matches */}
         {pool.matches.map((match) => {
-          const ref = useRef();
-          refs.push(ref);
           return (
             <MatchDis
               key={match.id}
@@ -168,21 +184,25 @@ const PoolDis = ({ pool }) => {
               addChangingID={addChangingID}
               addDeletingID={addDeletingID}
               removeDeletingID={removeDeletingID}
-              ref={ref}
+              reset={reset}
+              isLoading={isLoading}
             />
           );
         })}
       </div>
-      <Button type="button" fullWidth onClick={applyChanges}>
+      <Button type="button" fullWidth disabled={isLoading} onClick={applyChanges}>
         Apply Changes
       </Button>
       <div className="mt-3">
-        <Button type="button" fullWidth onClick={resetValues}>
+        <Button type="button" fullWidth disabled={isLoading} onClick={resetValues}>
           Reset Values
+        </Button>
+      </div>
+      <div className="mt-3">
+        <Button type="button" fullWidth disabled={isLoading} onClick={generateMatches}>
+          Reset And Generate Matches
         </Button>
       </div>
     </div>
   );
 };
-
-export default PoolDis;
