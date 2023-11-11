@@ -1,3 +1,4 @@
+import { QueryClient } from "@tanstack/query-core";
 import { Router } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -15,8 +16,7 @@ import {
 } from "./ui/dropdown-menu";
 
 export function UserNav({ user, userIsLoading }) {
-  const { status } = useSession();
-  const router = useRouter();
+  const queryClient = new QueryClient();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -28,17 +28,25 @@ export function UserNav({ user, userIsLoading }) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-fit" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
-            </p>
-          </div>
-        </DropdownMenuLabel>
+        {!userIsLoading && (
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">{user.name}</p>
+              <p className="text-xs leading-none text-muted-foreground">
+                {user.email}
+              </p>
+            </div>
+          </DropdownMenuLabel>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <Button variant="outline" onClick={() => signOut()}>
+          <Button
+            variant="outline"
+            onClick={() => {
+              queryClient.invalidateQueries([`user`]);
+              signOut();
+            }}
+          >
             Log Out
           </Button>
         </DropdownMenuItem>
