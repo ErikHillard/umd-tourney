@@ -101,7 +101,7 @@ export function MainNav({
           UMD Club Volleyball
         </h1>
       </Link>
-      <nav className="mx-6 flex items-center space-x-4 lg:space-x-6 hidden md:block">
+      <nav className="mx-6 items-center space-x-4 lg:space-x-6 hidden md:block">
         <Button asChild variant="ghost">
           <Link
             href={`/teams`}
