@@ -4,28 +4,20 @@ import axios from "axios";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useState } from "react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
 import { MainNav } from "./MainNav";
 import { UserNav } from "./UserNav";
 import { Button } from "./ui/button";
+import Container from "./ui/container";
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import { useTheme } from "next-themes";
 
 const MENU_LIST = [
   { text: "Home", href: "/" },
   { text: "Teams", href: "/teams" },
 ];
 
+
 export default function Navbar() {
-  const session = useSession();
-  const [navActive, setNavActive] = useState(null);
   const { data: user, isLoading: userIsLoading } = useQuery({
     queryKey: [`user`],
     queryFn: async () => {
@@ -44,66 +36,24 @@ export default function Navbar() {
     staleTime: 1000, // min TODO later change this so that it will check every 5
   });
 
-  const { status } = useSession();
-
 
   return (
-    <header className="sticky top-0 z-50 bg-inherit">
-      <div className="border-b">
-        <div className="flex h-16 items-center px-4">
+    <header className="sm:flex sm:justify-between p-3 border-b">
+      <Container>
+        <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between w-full">
           <MainNav
-            className="mx-6"
+            className="flex items-center"
             pools={pools}
             poolsIsLoading={poolsIsLoading}
             isAdmin={user?.role === "admin"}
           />
-          <div className="ml-auto flex items-center space-x-4">
-            {status === 'authenticated' ? 
-              <UserNav user={user} userIsLoading={userIsLoading} /> :
-              <Link href="/login"><Button variant="outline">Login</Button></Link>
-              }
-          </div>
+          <UserNav
+            className="flex items-center"
+            user={user}
+            userIsLoading={userIsLoading}
+          />
         </div>
-      </div>
+      </Container>
     </header>
-    // <NavigationMenu>
-    //   <NavigationMenuList>
-    //     <NavigationMenuItem>
-    //       <Link href="/" legacyBehavior passHref>
-    //         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-    //           UMD Club Volleyball
-    //         </NavigationMenuLink>
-    //       </Link>
-    //       <Link href="/teams" legacyBehavior passHref>
-    //         <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-    //           Teams
-    //         </NavigationMenuLink>
-    //       </Link>
-    //     </NavigationMenuItem>
-    //   </NavigationMenuList>
-    // </NavigationMenu>
   );
 }
-
-// const ListItem = (({ className, title, children, ...props }, ref) => {
-//   return (
-//     <li>
-//       <NavigationMenuLink asChild>
-//         <a
-//           ref={ref}
-//           className={cn(
-//             "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-//             className
-//           )}
-//           {...props}
-//         >
-//           <div className="text-sm font-medium leading-none">{title}</div>
-//           <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-//             {children}
-//           </p>
-//         </a>
-//       </NavigationMenuLink>
-//     </li>
-//   )
-// })
-// ListItem.displayName = "ListItem"
