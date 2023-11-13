@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import AuthSocialButton from "./AuthSocialButton";
-import Button from "@/components/Button";
+import { Button } from "@/components/ui/button";
 import Input from "@/components/inputs/Input";
 import { BsGoogle } from "react-icons/bs"
 import axios from "axios";
@@ -106,11 +106,10 @@ export default function AuthForm({ }) {
       >
         <div
           className="
-            bg-white
             px-4
             py-8
-            shadow
-            sm:rounded-lg
+            shadow-md border-2
+            rounded-lg
             sm:px-10
           ">
           <form
@@ -119,7 +118,7 @@ export default function AuthForm({ }) {
           >
             <Input id="email" label="Email Address" type="email" register={register} errors={errors} disabled={isLoading}/>
             <Input id="password" label="Password" type="password" register={register} errors={errors} disabled={isLoading}/>
-            <Button disabled={isLoading} fullWidth type="submit">{'Sign in'}</Button>
+            <Button disabled={isLoading} className="w-full" type="submit">{'Sign in'}</Button>
             
           </form>
 

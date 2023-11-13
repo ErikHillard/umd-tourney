@@ -38,9 +38,9 @@ export default function Navbar() {
 
 
   return (
-    <header className="sm:flex sm:justify-between p-3 border-b">
+    <header className="sticky top-0 z-50 bg-inherit sm:flex sm:justify-between p-3 border-b">
       <Container>
-        <div className="relative px-4 sm:px-6 lg:px-8 flex h-16 items-center justify-between w-full">
+        <div className="px-4 sm:px-6 lg:px-8 flex h-12 items-center justify-between w-full">
           <MainNav
             className="flex items-center"
             pools={pools}
