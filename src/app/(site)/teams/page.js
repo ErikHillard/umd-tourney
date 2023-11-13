@@ -1,8 +1,10 @@
-import Link from "next/link";
+import Container from "@/components/ui/container";
 import ClientTeamsPage from "./ClientTeamsPage";
 
 export default async function TeamPage({ params }) {
   return (
-    <ClientTeamsPage />
+    <Container className="px-6 pt-6">
+      <ClientTeamsPage />
+    </Container>
   );
 }
